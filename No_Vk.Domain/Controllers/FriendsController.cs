@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Abstractions;
 using No_Vk.Domain.Models.Data;
-using System.Text.Json;
 using System.Linq;
 using No_Vk.Domain.Services;
 
@@ -32,26 +31,24 @@ namespace No_Vk.Domain.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddFriend([FromForm] string email)
         {
-            string id = "";
             if (string.IsNullOrEmpty(email)) return View("AddFriend");
 
             User friendUser = _userRepository.GetUsers().FirstOrDefault(u => u.Email == email);
 
             if (friendUser == null) return View("AddFriend");
 
-            string userJson = HttpContext.Session.GetString("User");
-            User user = JsonSerializer.Deserialize<User>(userJson);
+            string userId = HttpContext.Session.GetString("User");
+            User user = _userRepository.GetUser(userId);
 
             if (user.Id == friendUser.Id) { return View("AddFriend"); }
 
-            Notice notice = new("Запрос на добавление в друзья", friendUser, "", userJson, NoticeType.FriendInvite);
-            
-            
-            IQueryable<Chat> chats = _userRepository.GetUser(id).Chats.AsQueryable();
-            
+            Notice notice = new("Запрос на добавление в друзья", friendUser, "", userId, NoticeType.FriendInvite);
+
+            _userRepository.AddNotice(notice);
             
             _userRepository.Save();
 

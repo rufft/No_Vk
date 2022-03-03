@@ -23,7 +23,7 @@ namespace No_Vk.Domain.Services
         {
             if (_httpContextAccessor.HttpContext.Session.Keys.Contains("User"))
             {
-                User user = _httpContextAccessor.HttpContext.Session.GetObject<User>("User");
+                User user = _usersRepository.GetUser(_httpContextAccessor.HttpContext.Session.GetString("User"));
                 if (user != null)
                 {
                     return user;

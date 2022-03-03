@@ -22,6 +22,6 @@ namespace No_Vk.Domain.Models
         public string Password { get; set; }
         public RoleNames Role { get; set; }
 
-        public ICollection<Chat> Chats { get; set; }
+        public virtual ICollection<Chat> Chats { get; set; }
     }
 }

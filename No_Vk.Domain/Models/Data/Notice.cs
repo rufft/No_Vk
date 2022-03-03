@@ -11,7 +11,7 @@ namespace No_Vk.Domain.Models.Data
             Name = name;
             User = user;
             Description = description;
-            JSONModel = jsonModel;
+            Object = jsonModel;
             Type = type;
         }
 
@@ -20,7 +20,7 @@ namespace No_Vk.Domain.Models.Data
         public string Name { get; set; }
         public User User { get; set; }
         public string Description { get; set; }
-        public string JSONModel { get; set; }
+        public string Object { get; set; }
         public NoticeType Type { get; set; }
     }
 

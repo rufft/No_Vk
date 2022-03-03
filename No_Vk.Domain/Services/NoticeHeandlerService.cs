@@ -28,8 +28,7 @@ namespace No_Vk.Domain.Models.Notices
                 return;
             }
 
-            User user = JsonSerializer.Deserialize<User>(notice.JSONModel);
-            User user2 = _userRepository.GetUsers().First(u => u.Id == notice.User.Id);
+            User user = _userRepository.GetUser(notice.Object);
             Friend friend = new(notice.User, user);
 
             _userRepository.AddFriend(friend);

@@ -23,11 +23,11 @@ namespace No_Vk.Test
             {
                 new()
                 {
-                    Type = NoticeType.FriendInvite.ToString()
+                    Type = NoticeType.FriendInvite
                 },
                 new()
                 {
-                    Type = NoticeType.ChatInvite.ToString(),
+                    Type = NoticeType.ChatInvite
                 }
             }.AsQueryable();
         }

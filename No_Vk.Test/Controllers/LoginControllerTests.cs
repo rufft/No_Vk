@@ -62,9 +62,9 @@ namespace No_Vk.Test.Controllers
         public void Login_PasswordShouldMatch()
         {
             //Arrange
-            User user1 = new() { Email = "1@1.1", Password = "1234" };
-            User user2 = new() { Email = "2", Password = "1234123" };
-            User userDb = new() { Email = user1.Email, Password = user1.Password };
+            User user1 = new("1@1.1", "login1", "1234", RoleNames.Base);
+            User user2 = new("2@1.1", "login2", "1234", RoleNames.Base);
+            User userDb = user1;
 
             //Act
             bool match1 = user1.Password == userDb.Password;
@@ -81,12 +81,12 @@ namespace No_Vk.Test.Controllers
         {
             return new List<User>()
             {
-                new() { Email = "1", Id = "12341243", Login = "log1", Password = "pass1", Role = RoleNames.Base.ToString() },
-                new() { Email = "2", Id = "11231243", Login = "log2", Password = "pass2", Role = RoleNames.Base.ToString() },
-                new() { Email = "3", Id = "13451243", Login = "log3", Password = "pass3", Role = RoleNames.Base.ToString() },
-                new() { Email = "4", Id = "11223443", Login = "log4", Password = "pass4", Role = RoleNames.Base.ToString() },
-                new() { Email = "5", Id = "34531243", Login = "log5", Password = "pass5", Role = RoleNames.Base.ToString() },
-                new() { Email = "6", Id = "65673243", Login = "log6", Password = "pass6", Role = RoleNames.Base.ToString() }
+                new("1", "log1", "pass", RoleNames.Base) { Id = "1" },
+                new("2", "log2", "pass", RoleNames.Base) { Id = "2" },
+                new("3", "log3", "pass", RoleNames.Base) { Id = "3" },
+                new("4", "log4", "pass", RoleNames.Base) { Id = "4" },
+                new("5", "log5", "pass", RoleNames.Base) { Id = "5" },
+                new("6", "log6", "pass", RoleNames.Base) { Id = "6" }
 
             }.AsQueryable();
         }

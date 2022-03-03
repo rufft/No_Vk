@@ -53,7 +53,7 @@ namespace No_Vk.Domain.Controllers
 
             if (user.Password != target.Password) { return View(); }
 
-            HttpContext.Session.SetObject<User>("User", user);
+            HttpContext.Session.SetString("User", user.Id);
             
             return RedirectToAction("Index", "Home");
         }

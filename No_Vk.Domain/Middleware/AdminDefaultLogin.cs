@@ -19,9 +19,9 @@ namespace No_Vk.Domain.Middleware
         {
             if (!context.Session.Keys.Contains("User"))
             {
-                User user = userRepository.GetUsers().FirstOrDefault(u => u.Email == "admin@dev.ru");
+                string userId = userRepository.GetUsers().FirstOrDefault(u => u.Email == "admin@dev.ru").Id;
 
-                context.Session.SetObject<User>("User", user);
+                context.Session.SetString("User", userId);
             }
 
             await _next(context);

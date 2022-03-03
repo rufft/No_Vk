@@ -17,9 +17,9 @@ namespace No_Vk.Domain.Middleware
         {
             if (context.Session.Keys.Contains("User"))
             {
-                User user = context.Session.GetObject<User>("User");
+                string userId = context.Session.GetString("User");
 
-                if (user == null && (context.Request.Path.Value != "/login/login" || context.Request.Path.Value != "/login/registration"))
+                if (string.IsNullOrEmpty(userId) && (context.Request.Path.Value != "/login/login" || context.Request.Path.Value != "/login/registration"))
                 {
                     context.Response.Redirect("/login/login");
                 }
