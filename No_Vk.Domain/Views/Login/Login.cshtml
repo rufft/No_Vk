@@ -1,0 +1,32 @@
+﻿@model UserRegistrationBindingTarget
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    .input-validation-error {
+        border-color: red;
+    }
+</style>
+<div class="main-c">
+    <form method="post">
+        <div class="inputs-c">
+            <label>
+                Введите почту
+                <input asp-for="Email">
+                <span asp-validation-for="Email" />
+            </label>    
+            <label>
+                Введите пароль
+                <input asp-for="Password">
+                <span asp-validation-for="Password" />
+            </label>
+        </div>
+        <div class="submit-i">
+            <button type="submit">Подтвердить</button>
+        </div>
+    </form>
+</div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

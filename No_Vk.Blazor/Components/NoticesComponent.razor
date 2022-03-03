@@ -1,0 +1,14 @@
+﻿@using No_Vk.Domain.Models.Data
+
+<div class="main">
+    
+    @foreach (Notice notice in Notices)
+    {
+        <NoticeComponent Notice="@notice" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public List<Notice> Notices { get; set; }
+}

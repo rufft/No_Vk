@@ -1,0 +1,54 @@
+﻿@page "/notice"
+
+@using No_Vk.Domain.Services
+
+@inject IUserRepository UserRepository
+@inject INoticeHeandlerService NoticeHeandler
+
+<h3>Notices</h3>
+
+@foreach (var notice in notices)
+{
+    <div class="notice">
+    <h3>@notice.Name</h3>
+    <h3>@notice.Description</h3>
+    @if (notice.Type == NoticeType.FriendInvite)
+    {
+        <div @onclick="() => OnInitialized()">
+            <button class="btn btn-primary" @onclick="() => AcceptFriendInvite(notice)">Принять</button>
+            <button @onclick="() => DeclineFriendInvite(notice)">Отклонить</button>
+        </div>
+    }
+</div>
+ <style>
+     .notice {
+         padding: 10px;
+         margin: 10px;
+         border: solid 2px;
+         border-color: black;
+     }
+ </style>
+}
+
+@code {
+    private IQueryable<Notice> notices;
+
+    private IQueryable<Notice> GetList() => UserRepository.GetNotices().Include(n => n.User);
+
+    protected override void OnInitialized()
+    {
+        notices = GetList();
+    }
+
+    private void AcceptFriendInvite(Notice notice)
+    {
+        NoticeHeandler.FriendInviteInvoke(notice, true);
+        OnInitialized();
+
+    }
+    private void DeclineFriendInvite(Notice notice)
+    {
+        NoticeHeandler.FriendInviteInvoke(notice, false);
+        OnInitialized();
+    }
+}

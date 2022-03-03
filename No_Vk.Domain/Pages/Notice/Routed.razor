@@ -1,0 +1,10 @@
+﻿<Router AppAssembly="typeof(Startup).Assembly">
+    <Found>
+        <RouteView RouteData="@context" DefaultLayout="typeof(NoticeLayout)" />
+    </Found>
+    <NotFound>
+        <h4 class="bg-danger text-white text-center p-2">
+            Такого пути нет
+        </h4>
+    </NotFound>
+</Router>

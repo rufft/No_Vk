@@ -1,0 +1,22 @@
+﻿@using No_Vk.Domain.Models
+@using No_Vk.Domain.Models.Abstractions
+@using No_Vk.Domain.Models.Data
+@using No_Vk.Domain.Services
+
+@inject UserDataService userData
+
+<div>
+    @foreach(var friend in _friends)
+    {
+        <h5>@friend.Id</h5>
+    }
+</div>
+
+@code {
+    private IEnumerable<User> _friends;
+
+    protected override void OnInitialized()
+    {
+        _friends = userData.GetFriendsAsUser();
+    }
+}
