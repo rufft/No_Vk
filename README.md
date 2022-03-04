@@ -13,4 +13,4 @@ No_Vk - это мессенджер который даст возможност
 <br/><br/><br/><br/>
 ## Инструменты / Среды
 
- <img src="https://user-images.githubusercontent.com/100860135/156788732-d41a66c2-9367-4bcb-af9a-b6c58dbfb2eb.jpg" height="90"/>  <img src="https://www.alooma.com/img/integrations/postgresql.png" height="90"/> <img src="https://user-images.githubusercontent.com/100860135/156790347-8111e370-34f2-4855-86f0-030f574e1ff7.jpg" height="90"/> <br/> <img src="https://user-images.githubusercontent.com/100860135/156787150-6b7d927b-93e9-48ea-82ec-47b3b86462e2.jpg" height="90"/>
+ <img src="https://user-images.githubusercontent.com/100860135/156788732-d41a66c2-9367-4bcb-af9a-b6c58dbfb2eb.jpg" height="100"/>  <img src="https://www.alooma.com/img/integrations/postgresql.png" height="100"/> <img src="https://user-images.githubusercontent.com/100860135/156790347-8111e370-34f2-4855-86f0-030f574e1ff7.jpg" height="100"/> <br/> <img src="https://user-images.githubusercontent.com/100860135/156787150-6b7d927b-93e9-48ea-82ec-47b3b86462e2.jpg" height="100"/>
