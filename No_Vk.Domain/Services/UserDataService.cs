@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Abstractions;
 using No_Vk.Domain.Models.Data;
@@ -47,7 +48,10 @@ namespace No_Vk.Domain.Services
             User _user = GetUser();
             if (_user != null)
             {
-                IQueryable<Friend> friends = _usersRepository.GetFriends();
+                IQueryable<Friend> friends = _usersRepository
+                    .GetFriends()
+                    .Include(f => f.Friend1)
+                    .Include(f => f.Friend2);
                 foreach (var friend in friends)
                 {
                     if (friend.Friend1.Id == _user.Id)
@@ -60,7 +64,7 @@ namespace No_Vk.Domain.Services
                     }
                 }
             }
-            yield return null;
+            yield break;
         }
 
         public IQueryable<Message> GetMessages()

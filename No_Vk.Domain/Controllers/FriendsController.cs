@@ -24,7 +24,7 @@ namespace No_Vk.Domain.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index() => View(_userData.GetFriendsAsUser());
+        public IActionResult Index() => View(_userData.GetFriendsAsUser().ToList());
 
         [HttpGet]
         public IActionResult AddFriend()

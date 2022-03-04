@@ -1,8 +1,14 @@
-﻿@model IEnumerable<User>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<User>
 
 @foreach(var user in Model)
 {
     <div class="frind-c">
-        <div>@user.Id</div>
+        <div>@user.Login</div>
+        <form asp-controller="User" asp-action="Index" method="post">
+            <input type="hidden" name="userId" value="@user.Id" />
+            <button type="submit">Go To User</button>
+        </form>
     </div>
+    <br />
 }

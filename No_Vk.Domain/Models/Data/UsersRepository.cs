@@ -1,4 +1,5 @@
-﻿using No_Vk.Domain.Models.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using No_Vk.Domain.Models.Abstractions;
 using System;
 using System.Linq;
 
@@ -11,11 +12,11 @@ namespace No_Vk.Domain.Models.Data
         {
             _context = context;
         }
-
-        public IQueryable<User> GetUsers() => _context.Users;
-        public User GetUser(string id) => _context.Users.FirstOrDefault(i => i.Id == id);
-        public IQueryable<Chat> GetChats() => _context.Chats;
-        public Chat GetChat(string id) => _context.Chats.FirstOrDefault(i => i.Id == id);
+        //TODO: Добавить include в методы!
+        public IQueryable<User> GetUsers() => _context.Users.Include(u => u.Chats);
+        public User GetUser(string id) => _context.Users.Include(u => u.Chats).FirstOrDefault(i => i.Id == id);
+        public IQueryable<Chat> GetChats() => _context.Chats.Include(c => c.Messages);
+        public Chat GetChat(string id) => _context.Chats.Include(c => c.Messages).FirstOrDefault(i => i.Id == id);
         public IQueryable<Message> GetMessages() => _context.Messages;
         public Message GetMessage(string id) => _context.Messages.FirstOrDefault(i => i.Id == id);
         public IQueryable<Friend> GetFriends() => _context.Friends;
