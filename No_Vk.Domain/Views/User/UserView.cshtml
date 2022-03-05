@@ -1,8 +1,5 @@
-﻿@model string
+﻿@using No_Vk.Domain.Services
+@model string
+@inject IUserDataService UserData
 
 <div>@Model</div>
-
-<form asp-controller="Chat" asp-action="Index" method="post">
-    <input type="hidden" name="userId" value="@Model" />
-    <button type="submit">Создать чат</button>
-</form>

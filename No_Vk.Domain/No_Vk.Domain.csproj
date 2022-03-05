@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Friends\" />
     <Folder Include="Views\Notice\" />
   </ItemGroup>
 

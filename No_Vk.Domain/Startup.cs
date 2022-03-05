@@ -42,6 +42,7 @@ namespace No_Vk.Domain
             services.AddServerSideBlazor();
             services.AddScoped<IUserRepository, UsersRepository>();
             services.AddScoped<INoticeHeandlerService, NoticeHeandlerService>();
+            services.AddScoped<IChatHeandlerService, ChatHeandlerService>();
             services.AddScoped<IUserDataService, UserDataService>();
         }
 
@@ -75,7 +76,8 @@ namespace No_Vk.Domain
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/notice/{*catchall}", "/Notice/Index");
+                endpoints.MapFallbackToPage("/chats/{*catchall}", "/Chats/IndexChats");
+                endpoints.MapFallbackToPage("/notice/{*catchall}", "/Notice/IndexNotice");
             });
 
             app.Run(async context => await context.Response.WriteAsync("Такой страницы нет!"));

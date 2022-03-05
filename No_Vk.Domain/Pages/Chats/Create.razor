@@ -1,0 +1,58 @@
+﻿@page "/chats/create"
+
+@using No_Vk.Domain.Models.ViewModels
+@using No_Vk.Domain.Services
+
+@inject IUserDataService UserData
+@inject IChatHeandlerService ChatData
+
+<form action="CreateChat" method="post">
+
+    <div>
+        Введите имя чата
+        <input @bind="ChatTarget.Name" />
+    </div>
+    <div>
+        <br />
+        Добавить друзей в чат
+        <br />
+        @foreach(var user in UserData.GetFriendsAsUser())
+        {
+            @user.Login
+            <input type="checkbox" @onchange="() => UpdateListOfUsers(user)" />
+            <br />
+        }
+    </div>
+    <button type="submit" @onclick="() => Submit()">Создать чат</button>
+</form>
+
+@code {
+    public ChatBindingTarget ChatTarget;
+    public List<User> Users;
+
+    protected override void OnInitialized()
+    {
+        ChatTarget = new();
+        Users = new();
+        Users.Add(UserData.GetUser());
+    }
+
+
+    private void Submit()
+    {
+        ChatData.CreateChat(ChatTarget, Users.ToArray());
+    }
+
+    private void UpdateListOfUsers(User user)
+    {
+        if (Users.Contains(user))
+        {
+            Users.Remove(user);
+        }
+        else
+        {
+            Users.Add(user);
+        }
+    }
+
+}

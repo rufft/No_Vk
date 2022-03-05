@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace No_Vk.Domain.Pages.Admin
 {
-    public class IndexModel : PageModel
+    public class IndexChatsModel : PageModel
     {
         public void OnGet()
         {
