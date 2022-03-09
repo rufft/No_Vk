@@ -49,7 +49,7 @@ namespace No_Vk.Domain.Services
             if (_user != null)
             {
                 IQueryable<Friend> friends = _usersRepository
-                    .GetFriends().Include(f => f.Friend1.Chats).Include(f => f.Friend2.Chats)
+                    .GetFriends().Include(f => f.Friend1).Include(f => f.Friend2)
                     .Include(f => f.Friend1)
                     .Include(f => f.Friend2);
                 foreach (var friend in friends)

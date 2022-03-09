@@ -1,4 +1,5 @@
 ﻿using No_Vk.Domain.Models.Abstractions;
+using No_Vk.Domain.Models.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,6 @@ namespace No_Vk.Domain.Models
         public string Password { get; set; }
         public RoleNames Role { get; set; }
 
-        public virtual ICollection<Chat> Chats { get; set; }
+        public List<Chat> Chats { get; set; }
     }
 }

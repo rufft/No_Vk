@@ -1,4 +1,5 @@
 ﻿using No_Vk.Domain.Models.Abstractions;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace No_Vk.Domain.Models

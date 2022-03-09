@@ -28,16 +28,16 @@ namespace No_Vk.Domain.Models.Abstractions
         //Update
         public void UpdateUser(User user);
         public void UpdateChat(Chat chat);
-        public void UpdateMessage(Message Message);
-        public void UpdateFriend(Friend Friend);
-        public void UpdateNotice(Notice Notice);
+        public void UpdateMessage(Message message);
+        public void UpdateFriend(Friend friend);
+        public void UpdateNotice(Notice notice);
 
         //Delete
         public void DeleteUser(User user);
         public void DeleteChat(Chat chat);
-        public void DeleteMessage(Message Message);
-        public void DeleteFriend(Friend Friend);
-        public void DeleteNotice(Notice Notice);
+        public void DeleteMessage(Message message);
+        public void DeleteFriend(Friend friend);
+        public void DeleteNotice(Notice notice);
 
 
 

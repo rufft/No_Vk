@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace No_Vk.Domain.Models.Data
 {
@@ -7,6 +9,11 @@ namespace No_Vk.Domain.Models.Data
         [Required]
         public string Name { get; set; }
 
-        public Chat ToChat() => new(Name);
+        public Chat ToChat()
+        {
+            Chat chat = new(Name, new());
+
+            return chat;
+        }
     }
 }

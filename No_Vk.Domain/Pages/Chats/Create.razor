@@ -3,20 +3,20 @@
 @using No_Vk.Domain.Models.ViewModels
 @using No_Vk.Domain.Services
 
-@inject IUserDataService UserData
-@inject IChatHeandlerService ChatData
+@inject IUserDataService _userData
+@inject IChatHandlerService _chatData
 
-<form action="CreateChat" method="post">
+<form action="" method="post">
 
     <div>
         Введите имя чата
-        <input @bind="ChatTarget.Name" />
+        <input @bind="_chatTarget.Name" />
     </div>
     <div>
         <br />
         Добавить друзей в чат
         <br />
-        @foreach(var user in UserData.GetFriendsAsUser())
+        @foreach(var user in _userData.GetFriendsAsUser())
         {
             @user.Login
             <input type="checkbox" @onchange="() => UpdateListOfUsers(user)" />
@@ -27,31 +27,31 @@
 </form>
 
 @code {
-    public ChatBindingTarget ChatTarget;
-    public List<User> Users;
+    private ChatBindingTarget _chatTarget;
+    private List<User> _users;
 
     protected override void OnInitialized()
     {
-        ChatTarget = new();
-        Users = new();
-        Users.Add(UserData.GetUser());
+        _chatTarget = new();
+        _users = new();
+        _users.Add(_userData.GetUser());
     }
 
 
     private void Submit()
     {
-        ChatData.CreateChat(ChatTarget, Users.ToArray());
+        _chatData.CreateChat(_chatTarget, _users.ToArray());
     }
 
     private void UpdateListOfUsers(User user)
     {
-        if (Users.Contains(user))
+        if (_users.Contains(user))
         {
-            Users.Remove(user);
+            _users.Remove(user);
         }
         else
         {
-            Users.Add(user);
+            _users.Add(user);
         }
     }
 

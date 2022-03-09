@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models.Abstractions;
 using No_Vk.Domain.Services;
 using No_Vk.Domain.Models.Notices;
+using No_Vk.Domain.Models.SignalRHubs;
 
 namespace No_Vk.Domain
 {
@@ -22,7 +23,7 @@ namespace No_Vk.Domain
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
 
         public void ConfigureServices(IServiceCollection services)
@@ -42,8 +43,9 @@ namespace No_Vk.Domain
             services.AddServerSideBlazor();
             services.AddScoped<IUserRepository, UsersRepository>();
             services.AddScoped<INoticeHeandlerService, NoticeHeandlerService>();
-            services.AddScoped<IChatHeandlerService, ChatHeandlerService>();
+            services.AddScoped<IChatHandlerService, ChatHandlerService>();
             services.AddScoped<IUserDataService, UserDataService>();
+            services.AddSignalR();
         }
 
         public void Configure(
@@ -76,7 +78,9 @@ namespace No_Vk.Domain
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
+                endpoints.MapHub<ChatHub>(ChatHub.Url);
                 endpoints.MapFallbackToPage("/chats/{*catchall}", "/Chats/IndexChats");
+                endpoints.MapFallbackToPage("/chat/{ChatId}", "/Chats/IndexChats");
                 endpoints.MapFallbackToPage("/notice/{*catchall}", "/Notice/IndexNotice");
             });
 

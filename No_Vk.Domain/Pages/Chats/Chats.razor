@@ -1,9 +1,19 @@
 ﻿@page "/chats"
+@using No_Vk.Domain.Services
+
+@inject IUserDataService _userData
 
 <h3>Chats</h3>
+<br />
 
-
-
-@code {
-
+@foreach (var chat in _userData.GetUser().Chats)
+{
+    var link = $"/chat/{chat.Id}";
+    <div>
+        <h2><NavLink href="@link">@chat.Name</NavLink></h2>
+        @foreach (var user in @chat.Users)
+       {
+           <h5>@user.Login</h5>
+       }
+    </div>
 }

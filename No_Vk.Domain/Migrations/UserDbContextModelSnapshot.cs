@@ -20,15 +20,15 @@ namespace No_Vk.Domain.Migrations
 
             modelBuilder.Entity("ChatUser", b =>
                 {
-                    b.Property<string>("ChatsId")
+                    b.Property<string>("ChatId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UsersId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ChatsId", "UsersId");
+                    b.HasKey("ChatId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ChatUser");
                 });
@@ -147,13 +147,13 @@ namespace No_Vk.Domain.Migrations
                 {
                     b.HasOne("No_Vk.Domain.Models.Chat", null)
                         .WithMany()
-                        .HasForeignKey("ChatsId")
+                        .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("No_Vk.Domain.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

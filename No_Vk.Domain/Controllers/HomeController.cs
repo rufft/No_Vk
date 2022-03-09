@@ -28,10 +28,6 @@ namespace No_Vk.Domain.Controllers
 
         public IActionResult Index()
         {
-            _logger.LogInformation(1, HttpContext.Session.GetString("User"));
-            var chats = _userData.GetUser().Chats;
-            _logger.LogInformation(1, chats?.Count().ToString());
-            _logger.LogInformation(1, _userRepository.GetChats().Count().ToString());
             return View();
         }
         public IActionResult Chat() => View();
