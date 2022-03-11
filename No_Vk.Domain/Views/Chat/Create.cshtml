@@ -1,0 +1,41 @@
+@using No_Vk.Domain.Services
+@using Microsoft.AspNetCore.Components
+@using Microsoft.EntityFrameworkCore.Migrations.Operations
+@using No_Vk.Types
+
+@model No_Vk.Domain.Models.ViewModels.ChatViewModel
+
+@inject IUserDataService _userData
+@inject IChatHandlerService _chatData
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+    <title>title</title>
+</head>
+<body>
+<form method="post">
+    <div>
+        Введите имя чата
+        <input asp-for="ChatTarget.Name" />
+    </div>
+    <div>
+        <br />
+        Добавить друзей в чат
+        <br />
+        @foreach(var user in _userData.GetFriendsAsUser())
+        {
+            @user.Login
+            @Html.CheckBoxFor(model => Model.Users[user.Id])
+            <br />
+        }
+    </div>
+    <button type="submit">Создать чат</button>
+</form>
+</body>
+</html>

@@ -13,14 +13,12 @@
     <form method="post">
         <div class="inputs-c">
             <label>
-                Введите почту
+                <span asp-validation-for="Email">Введите почту</span>
                 <input asp-for="Email">
-                <span asp-validation-for="Email" />
             </label>    
             <label>
-                Введите пароль
+                <span asp-validation-for="Password">Введите пароль</span>
                 <input asp-for="Password">
-                <span asp-validation-for="Password" />
             </label>
         </div>
         <div class="submit-i">

@@ -80,7 +80,7 @@ namespace No_Vk.Domain
                 endpoints.MapBlazorHub();
                 endpoints.MapHub<ChatHub>(ChatHub.Url);
                 endpoints.MapFallbackToPage("/chats/{*catchall}", "/Chats/IndexChats");
-                endpoints.MapFallbackToPage("/chat/{ChatId}", "/Chats/IndexChats");
+                //endpoints.MapFallbackToPage("/chat/{ChatId}", "/Chats/IndexChats");
                 endpoints.MapFallbackToPage("/notice/{*catchall}", "/Notice/IndexNotice");
             });
 

@@ -7,7 +7,7 @@ namespace No_Vk.Domain.Services
 {
     public interface IUserDataService
     {
-        public User GetUser();
+        public User GetMe();
         public IQueryable<Friend> GetFriends();
         public IEnumerable<User> GetFriendsAsUser();
         public IQueryable<Message> GetMessages();

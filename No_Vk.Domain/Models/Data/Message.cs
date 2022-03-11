@@ -12,12 +12,14 @@ namespace No_Vk.Domain.Models
             FromUser = fromUser;
             Chat = chat;
             MessageText = messageText;
+            MessageCreationTime = DateTime.Now;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public User FromUser { get; set; }
         public Chat Chat { get; set; }
+        public DateTime MessageCreationTime { get; set; }
         public string MessageText { get; set; }
     }
 }

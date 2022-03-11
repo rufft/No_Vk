@@ -1,11 +1,13 @@
-﻿using No_Vk.Domain.Models.Data;
+﻿using System;
+using No_Vk.Domain.Models.Data;
 using System.Collections.Generic;
+using No_Vk.Types;
 
 namespace No_Vk.Domain.Models.ViewModels
 {
     public class ChatViewModel
     {
-        public ChatBindingTarget ChatTraget { get; set; }
-        public List<User> Users { get; set; }
+        public ChatBindingTarget ChatTarget { get; set; }
+        public Dictionary<string, bool> Users { get; set; }
     }
 }

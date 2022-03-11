@@ -20,7 +20,7 @@ namespace No_Vk.Domain.Services
             _usersRepository = userRepository;
         }
 
-        public User GetUser()
+        public User GetMe()
         {
             if (_httpContextAccessor.HttpContext.Session.Keys.Contains("User"))
             {
@@ -35,7 +35,7 @@ namespace No_Vk.Domain.Services
 
         public IQueryable<Friend> GetFriends()
         {
-            User _user = GetUser();
+            User _user = GetMe();
             if (_user != null)
             {
                 return _usersRepository.GetFriends().Where(f => f.Friend1.Id == _user.Id || f.Friend2.Id == _user.Id);
@@ -45,7 +45,7 @@ namespace No_Vk.Domain.Services
 
         public IEnumerable<User> GetFriendsAsUser()
         {
-            User _user = GetUser();
+            User _user = GetMe();
             if (_user != null)
             {
                 IQueryable<Friend> friends = _usersRepository
@@ -69,7 +69,7 @@ namespace No_Vk.Domain.Services
 
         public IQueryable<Message> GetMessages()
         {
-            User _user = GetUser();
+            User _user = GetMe();
             if (_user != null)
             {
                 return _usersRepository.GetMessages().Where(m => m.FromUser.Id == _user.Id);
@@ -79,7 +79,7 @@ namespace No_Vk.Domain.Services
 
         public IQueryable<Notice> GetNotices()
         {
-            User _user = GetUser();
+            User _user = GetMe();
             if (_user != null)
             {
                 return _usersRepository.GetNotices().Where(n => n.User.Id == _user.Id);

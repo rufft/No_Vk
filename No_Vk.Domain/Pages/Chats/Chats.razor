@@ -6,7 +6,7 @@
 <h3>Chats</h3>
 <br />
 
-@foreach (var chat in _userData.GetUser().Chats)
+@foreach (var chat in _userData.GetMe().Chats)
 {
     var link = $"/chat/{chat.Id}";
     <div>

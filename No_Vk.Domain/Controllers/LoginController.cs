@@ -12,7 +12,7 @@ namespace No_Vk.Domain.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
-        private IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         public LoginController (ILogger<LoginController> logger, IUserRepository userRepository)
         {
             _logger = logger;
@@ -28,19 +28,13 @@ namespace No_Vk.Domain.Controllers
         [HttpPost]
         public IActionResult Registration([FromForm] UserRegistrationBindingTarget target)
         {
-            if (ModelState.IsValid)
-            {
-                if (_userRepository.GetUsers().FirstOrDefault(u => u.Email == target.Email) == null)
-                {
-                    _userRepository.AddNewUser(target);
-                    return View("Login");
-                }
-                else
-                {
-                    return View(target);
-                }
-            }
-            return View(target);
+            if (!ModelState.IsValid) return View(target);
+            
+            if (_userRepository.GetUsers().FirstOrDefault(u => u.Email == target.Email) != null)
+                return View(target);
+            
+            _userRepository.AddNewUser(target);
+            return View("Login");
         }
         [HttpPost]
         public IActionResult Login([FromForm] UserLoginBindeingTraget target)

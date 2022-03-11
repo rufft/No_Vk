@@ -17,4 +17,9 @@
     <Folder Include="Views\Notice\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\No_Vk.Types\No_Vk.Types.csproj" />
+    <ProjectReference Include="..\TypesLibrary\TypesLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

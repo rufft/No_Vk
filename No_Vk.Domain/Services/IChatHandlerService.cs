@@ -6,6 +6,7 @@ namespace No_Vk.Domain.Services
     public interface IChatHandlerService
     {
         public void CreateChat(ChatBindingTarget chatBindingTarget, params User[] users);
+        public void CreateChat(ChatBindingTarget chatBindingTarget, params string[] usersId);
         public void SendMessageToDatabase(Chat chat, Message message);
     }
 }
