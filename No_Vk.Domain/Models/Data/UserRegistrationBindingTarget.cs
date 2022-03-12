@@ -1,19 +1,22 @@
-﻿using No_Vk.Domain.Models.Abstractions;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using No_Vk.Domain.Models.Abstractions;
+using No_Vk.Domain.Models.Attributes;
 
 namespace No_Vk.Domain.Models.Data
 {
     public class UserRegistrationBindingTarget
     {
-        [Required]
+        [Login(4, 15)]
         public string Login { get; set;}
 
-        [Required]
+        [Password(8,
+            PasswordOption.RequiredNumbers,
+            PasswordOption.RequiredCapitalLetter)]
         public string Password { get; set;}
 
-        [Required]
+        [Email]
         public string Email { get; set; }
 
-        public User ToUser() => new(Email, Login, Password, RoleNames.Base);
+        public User ToUser() => new(Email, Login, Password, RoleNames.Base, DateTime.Now);
     }
 }

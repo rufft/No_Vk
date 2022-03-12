@@ -47,8 +47,8 @@ namespace No_Vk.Test.Controllers
         public void Login_EmailShouldMatch()
         {
             //Arrange
-            UserLoginBindeingTraget target1 = new() { Email = "1@1.1", Password = "1234" };
-            UserLoginBindeingTraget target2 = new() { Email = "2", Password = "1234" };
+            UserLoginBindingTarget target1 = new() { Email = "1@1.1", Password = "1234" };
+            UserLoginBindingTarget target2 = new() { Email = "2", Password = "1234" };
 
             //Act
             User user1 = GetTestUsers().FirstOrDefault(u => u.Email == target1.Email);

@@ -8,22 +8,23 @@
     }
 </style>
 <div class="main-c">
+    <h3>@ViewBag.Validation</h3>
     <form method="post">
         <div class="inputs-c">
             <label>
                 Введите имя
                 <input asp-for="Login">
-                <span asp-validation-for="Login" />
-            </label>    
+                <h3><span asp-validation-for="Login"></span></h3>
+            </label>
             <label>
                 Введите почту
                 <input asp-for="Email">
-                <span asp-validation-for="Email" />
-            </label>  
+                <h3><span asp-validation-for="Email"></span></h3>
+            </label>
             <label>
                 Введите пароль
                 <input asp-for="Password">
-                <span asp-validation-for="Password" />
+                <h3><span asp-validation-for="Password"></span></h3>
             </label>
         </div>
         <div class="submit-i">

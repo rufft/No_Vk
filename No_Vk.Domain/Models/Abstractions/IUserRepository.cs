@@ -7,7 +7,7 @@ namespace No_Vk.Domain.Models.Abstractions
     public interface IUserRepository : IDisposable
     {
         //Create
-        public void AddUser(User user);
+        public void AddUser(UserRegistrationBindingTarget user);
         public void AddChat(Chat chat);
         public void AddMessage(Message message);
         public void AddFriend(Friend friend);

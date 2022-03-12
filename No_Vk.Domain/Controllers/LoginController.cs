@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models;
@@ -29,25 +31,56 @@ namespace No_Vk.Domain.Controllers
         public IActionResult Registration([FromForm] UserRegistrationBindingTarget target)
         {
             if (!ModelState.IsValid) return View(target);
-            
+
             if (_userRepository.GetUsers().FirstOrDefault(u => u.Email == target.Email) != null)
+            {
+                ViewBag.Validation = "Пользователь с такой почтой уже существует";
                 return View(target);
-            
-            _userRepository.AddNewUser(target);
+            }
+
+            try
+            {
+                _userRepository.AddUser(target);
+                _userRepository.Save();
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                _logger.LogError("Create new user ERROR: {Message}", message);
+                return View(target);
+            }
+
             return View("Login");
         }
         [HttpPost]
-        public IActionResult Login([FromForm] UserLoginBindeingTraget target)
+        public IActionResult Login([FromForm] UserLoginBindingTarget target)
         {
             if (!ModelState.IsValid) { return View(); }
 
             User user = _userRepository.GetUsers().FirstOrDefault(u => u.Email == target.Email);
 
-            if (user == null) { return View(); }
+            if (user == null)
+            {
+                ViewBag["Validation"] = "Вы неправильно ввели логин или пароль";
+                return View();
+            }
 
-            if (user.Password != target.Password) { return View(); }
+            if (user.Password != target.Password)
+            {
+                ViewBag["Validation"] = "Вы неправильно ввели логин или пароль";
+                return View();
+            }
 
-            HttpContext.Session.SetString("User", user.Id);
+            try
+            {
+                HttpContext.Session.SetString("User", user.Id);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                _logger.LogError("Set string User to session ERROR: {Message}", message);
+                return View();
+            }
             
             return RedirectToAction("Index", "Home");
         }

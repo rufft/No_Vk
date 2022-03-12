@@ -2,6 +2,7 @@
 using No_Vk.Domain.Models.Abstractions;
 using System;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace No_Vk.Domain.Models.Data
 {
@@ -29,7 +30,18 @@ namespace No_Vk.Domain.Models.Data
         public IQueryable<Notice> GetNotices() => _context.Notices;
         public Notice GetNotice(string id) => _context.Notices.FirstOrDefault(i => i.Id == id);
 
-        public void AddUser(User user) => _context.Users.Add(user);
+        public void AddUser(UserRegistrationBindingTarget target)
+        {
+            try
+            {
+                User user = target.ToUser();
+                _context.Users.Add(user);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+        }
         public void AddChat(Chat chat) => _context.Chats.Add(chat);
         public void AddMessage(Message message) => _context.Messages.Add(message);
         public void AddFriend(Friend friend) => _context.Friends.Add(friend);

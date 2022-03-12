@@ -30,7 +30,5 @@ namespace No_Vk.Domain.Controllers
         {
             return View();
         }
-        public IActionResult Chat() => View();
-
     }
 }
