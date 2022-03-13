@@ -9,15 +9,22 @@
         border-color: red;
     }
 </style>
+<h3>@ViewBag.Validation</h3>
 <div class="main-c">
     <form method="post">
         <div class="inputs-c">
             <label>
-                <span asp-validation-for="Email">Введите почту</span>
+                Введите почту
+                <br/>
                 <input asp-for="Email">
+                <span asp-validation-for="Email"></span>
+
             </label>    
+            <br/>
             <label>
-                <span asp-validation-for="Password">Введите пароль</span>
+                Введите пароль
+                <br/>
+                <span asp-validation-for="Password"></span>
                 <input asp-for="Password">
             </label>
         </div>

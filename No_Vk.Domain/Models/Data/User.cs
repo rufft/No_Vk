@@ -1,31 +1,20 @@
 ﻿using System;
 using No_Vk.Domain.Models.Abstractions;
-using No_Vk.Domain.Models.Data;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+using No_Vk.Domain.Models.Data;
 
 namespace No_Vk.Domain.Models
 {
     public class User : IUser
     {
-        //TODO: delete this constructor
         public User(string email, string login, string password, RoleNames role)
         {
             Email = email;
             Login = login;
             Password = password;
             Role = role;
-        }
-
-        public User(string email, string login, string password, RoleNames role, DateTime time)
-        {
-            Email = email;
-            Login = login;
-            Password = password;
-            Role = role;
-            CreatedTime = time;
+            CreatedTime = DateTime.Now;
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
@@ -36,5 +25,8 @@ namespace No_Vk.Domain.Models
         
         public DateTime CreatedTime { get; set; }
         public List<Chat> Chats { get; set; }
+        public List<Friend> Friends { get; set; }
+
+        public Friend ToFriend() => new(this);
     }
 }

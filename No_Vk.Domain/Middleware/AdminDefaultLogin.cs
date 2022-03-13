@@ -17,11 +17,11 @@ namespace No_Vk.Domain.Middleware
 
         public async Task InvokeAsync(HttpContext context, IUserRepository userRepository)
         {
-            if (!context.Session.Keys.Contains("User"))
+            if (!context.Session.Keys.Contains("Addressee"))
             {
                 string userId = userRepository.GetUsers().FirstOrDefault(u => u.Email == "admin@dev.ru").Id;
 
-                context.Session.SetString("User", userId);
+                context.Session.SetString("Addressee", userId);
             }
 
             await _next(context);

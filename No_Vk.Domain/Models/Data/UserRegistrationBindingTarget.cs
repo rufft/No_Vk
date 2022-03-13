@@ -17,6 +17,6 @@ namespace No_Vk.Domain.Models.Data
         [Email]
         public string Email { get; set; }
 
-        public User ToUser() => new(Email, Login, Password, RoleNames.Base, DateTime.Now);
+        public User ToUser() => new(Email, Login, Password, RoleNames.Base);
     }
 }

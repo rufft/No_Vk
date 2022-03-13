@@ -10,8 +10,8 @@ using No_Vk.Domain.Models.Data;
 namespace No_Vk.Domain.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220312114711_Ver2.32")]
-    partial class Ver232
+    [Migration("20220313101352_Ver2.33")]
+    partial class Ver233
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,27 +51,6 @@ namespace No_Vk.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chats");
-                });
-
-            modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Friend1Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Friend2Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Friend1Id");
-
-                    b.HasIndex("Friend2Id");
-
-                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>
@@ -150,7 +129,12 @@ namespace No_Vk.Domain.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -168,21 +152,6 @@ namespace No_Vk.Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
-                {
-                    b.HasOne("No_Vk.Domain.Models.Addressee", "Friend1")
-                        .WithMany()
-                        .HasForeignKey("Friend1Id");
-
-                    b.HasOne("No_Vk.Domain.Models.Addressee", "Friend2")
-                        .WithMany()
-                        .HasForeignKey("Friend2Id");
-
-                    b.Navigation("Friend1");
-
-                    b.Navigation("Friend2");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>
@@ -209,9 +178,21 @@ namespace No_Vk.Domain.Migrations
                     b.Navigation("FromUser");
                 });
 
+            modelBuilder.Entity("No_Vk.Domain.Models.Addressee", b =>
+                {
+                    b.HasOne("No_Vk.Domain.Models.Addressee", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("No_Vk.Domain.Models.Chat", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("No_Vk.Domain.Models.Addressee", b =>
+                {
+                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

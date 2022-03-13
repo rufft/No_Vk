@@ -1,7 +1,5 @@
-﻿using System;
-using No_Vk.Domain.Models.Data;
+﻿using No_Vk.Domain.Models.Data;
 using System.Collections.Generic;
-using No_Vk.Types;
 
 namespace No_Vk.Domain.Models.ViewModels
 {

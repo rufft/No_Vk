@@ -1,12 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Data;
-using No_Vk.Domain.Models.Extensions;
 using No_Vk.Domain.Models.Abstractions;
 
 namespace No_Vk.Domain.Controllers
@@ -31,6 +29,10 @@ namespace No_Vk.Domain.Controllers
         public IActionResult Registration([FromForm] UserRegistrationBindingTarget target)
         {
             if (!ModelState.IsValid) return View(target);
+
+            target.Email = target.Email.Trim();
+            target.Login = target.Login.Trim();
+            target.Password = target.Password.Trim();
 
             if (_userRepository.GetUsers().FirstOrDefault(u => u.Email == target.Email) != null)
             {
@@ -57,28 +59,32 @@ namespace No_Vk.Domain.Controllers
         {
             if (!ModelState.IsValid) { return View(); }
 
-            User user = _userRepository.GetUsers().FirstOrDefault(u => u.Email == target.Email);
+            target.Email = target.Email.Trim();
+            target.Password = target.Password.Trim();
+            
+            var users = _userRepository.GetUsers();
+            User user = users.FirstOrDefault(u => u.Email == target.Email);
 
             if (user == null)
             {
-                ViewBag["Validation"] = "Вы неправильно ввели логин или пароль";
+                ViewBag.Validation = "Вы неправильно ввели логин или пароль";
                 return View();
             }
 
             if (user.Password != target.Password)
             {
-                ViewBag["Validation"] = "Вы неправильно ввели логин или пароль";
+                ViewBag.Validation = "Вы неправильно ввели логин или пароль";
                 return View();
             }
 
             try
             {
-                HttpContext.Session.SetString("User", user.Id);
+                HttpContext.Session.SetString("Addressee", user.Id);
             }
             catch (Exception e)
             {
                 string message = e.Message;
-                _logger.LogError("Set string User to session ERROR: {Message}", message);
+                _logger.LogError("Set string Addressee to session ERROR: {Message}", message);
                 return View();
             }
             

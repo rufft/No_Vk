@@ -2,19 +2,20 @@
 
 @using No_Vk.Domain.Services
 
-@inject IUserRepository UserRepository
-@inject INoticeHeandlerService NoticeHeandler
+@inject IUserRepository _userRepository
+@inject IUserDataService _userData
+@inject INoticeHandlerService _noticeHandler
 
 <h3>Notices</h3>
 
-@foreach (var notice in notices)
+@foreach (var notice in _myNotices)
 {
     <div class="notice">
     <h3>@notice.Name</h3>
     <h3>@notice.Description</h3>
     @if (notice.Type == NoticeType.FriendInvite)
     {
-        <div @onclick="() => OnInitialized()">
+        <div @onclick="OnInitialized">
             <button class="btn btn-primary" @onclick="() => AcceptFriendInvite(notice)">Принять</button>
             <button @onclick="() => DeclineFriendInvite(notice)">Отклонить</button>
         </div>
@@ -24,31 +25,34 @@
      .notice {
          padding: 10px;
          margin: 10px;
-         border: solid 2px;
-         border-color: black;
+         border: 2px solid black;
      }
  </style>
 }
 
 @code {
-    private IQueryable<Notice> notices;
+    private IQueryable<Notice> _myNotices;
 
-    private IQueryable<Notice> GetList() => UserRepository.GetNotices().Include(n => n.User);
+    private User _me;
+    
+    private IQueryable<Notice> GetList() => _userRepository
+        .GetNotices()
+        .Where(n => n.Addressee.Id == _me.Id);
 
     protected override void OnInitialized()
     {
-        notices = GetList();
+        _me = _userData.GetMe();
+        _myNotices = GetList();
     }
 
     private void AcceptFriendInvite(Notice notice)
     {
-        NoticeHeandler.FriendInviteInvoke(notice, true);
+        _noticeHandler.FriendInviteInvoke(notice, true);
         OnInitialized();
-
     }
     private void DeclineFriendInvite(Notice notice)
     {
-        NoticeHeandler.FriendInviteInvoke(notice, false);
+        _noticeHandler.FriendInviteInvoke(notice, false);
         OnInitialized();
     }
 }

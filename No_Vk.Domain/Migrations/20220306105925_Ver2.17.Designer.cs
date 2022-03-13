@@ -107,7 +107,7 @@ namespace No_Vk.Domain.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("No_Vk.Domain.Models.User", b =>
+            modelBuilder.Entity("No_Vk.Domain.Models.Addressee", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,11 +137,11 @@ namespace No_Vk.Domain.Migrations
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "Friend1")
+                    b.HasOne("No_Vk.Domain.Models.Addressee", "Friend1")
                         .WithMany()
                         .HasForeignKey("Friend1Id");
 
-                    b.HasOne("No_Vk.Domain.Models.User", "Friend2")
+                    b.HasOne("No_Vk.Domain.Models.Addressee", "Friend2")
                         .WithMany()
                         .HasForeignKey("Friend2Id");
 
@@ -152,11 +152,11 @@ namespace No_Vk.Domain.Migrations
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "User")
+                    b.HasOne("No_Vk.Domain.Models.Addressee", "Addressee")
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("User");
+                    b.Navigation("Addressee");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Message", b =>
@@ -165,7 +165,7 @@ namespace No_Vk.Domain.Migrations
                         .WithMany("Messages")
                         .HasForeignKey("ChatId");
 
-                    b.HasOne("No_Vk.Domain.Models.User", "FromUser")
+                    b.HasOne("No_Vk.Domain.Models.Addressee", "FromUser")
                         .WithMany()
                         .HasForeignKey("FromUserId");
 
@@ -174,7 +174,7 @@ namespace No_Vk.Domain.Migrations
                     b.Navigation("FromUser");
                 });
 
-            modelBuilder.Entity("No_Vk.Domain.Models.User", b =>
+            modelBuilder.Entity("No_Vk.Domain.Models.Addressee", b =>
                 {
                     b.HasOne("No_Vk.Domain.Models.Chat", null)
                         .WithMany("Users")

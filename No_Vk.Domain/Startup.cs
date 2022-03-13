@@ -42,7 +42,7 @@ namespace No_Vk.Domain
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<IUserRepository, UsersRepository>();
-            services.AddScoped<INoticeHeandlerService, NoticeHeandlerService>();
+            services.AddScoped<INoticeHandlerService, NoticeHandlerService>();
             services.AddScoped<IChatHandlerService, ChatHandlerService>();
             services.AddScoped<IUserDataService, UserDataService>();
             services.AddSignalR();

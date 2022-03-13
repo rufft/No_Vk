@@ -16,10 +16,10 @@
         <br />
         Добавить друзей в чат
         <br />
-        @foreach(var user in _userData.GetFriendsAsUser())
+        @foreach(var friend in _userData.GetMe().Friends)
         {
-            @user.Login
-            <input type="checkbox" @onchange="() => UpdateListOfUsers(user)" />
+            @friend.User.Login
+            <input type="checkbox" @onchange="() => UpdateListOfUsers(friend.User)" />
             <br />
         }
     </div>

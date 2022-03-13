@@ -47,7 +47,7 @@ namespace No_Vk.Domain.Models.Attributes
                         }
                         break;
                     case PasswordOption.RequiredSpecialSymbols:
-                        if (!Regex.IsMatch(password, @"[!\№\;\%\:@#$%\^&*\(\)\-_=+?]"))
+                        if (!Regex.IsMatch(password, @"[!\№\;\%\:@#$%\^&*\(\)\-_ =+?]"))
                         {
                             ErrorMessage = "Минимум один специальный символ в пароле";
                             return false;

@@ -12,12 +12,16 @@ namespace No_Vk.Domain.Models.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<Friend> Friends { get; set; }
         public DbSet<Notice> Notices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
+                .HasMany(u => u.Friends)
+                .WithOne(f => f.User)
+                .HasForeignKey(f => f.UserId);
+
+                modelBuilder.Entity<User>()
                 .HasMany(u => u.Chats)
                 .WithMany(c => c.Users)
                 .UsingEntity<Dictionary<string, object>>(

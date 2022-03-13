@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "No_Vk.Domain", "No_Vk.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "No_Vk.Tests", "No_Vk.Test\No_Vk.Tests.csproj", "{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "No_Vk.Types", "No_Vk.Types\No_Vk.Types.csproj", "{E68A95D9-3FE7-4BA0-A53A-E504CF5D23E1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E68A95D9-3FE7-4BA0-A53A-E504CF5D23E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E68A95D9-3FE7-4BA0-A53A-E504CF5D23E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E68A95D9-3FE7-4BA0-A53A-E504CF5D23E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E68A95D9-3FE7-4BA0-A53A-E504CF5D23E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

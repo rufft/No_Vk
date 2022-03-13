@@ -15,9 +15,9 @@ namespace No_Vk.Domain.Middleware
         }
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context.Session.Keys.Contains("User"))
+            if (context.Session.Keys.Contains("Addressee"))
             {
-                string userId = context.Session.GetString("User");
+                string userId = context.Session.GetString("Addressee");
 
                 if (string.IsNullOrEmpty(userId) && (context.Request.Path.Value != "/login/login" || context.Request.Path.Value != "/login/registration"))
                 {

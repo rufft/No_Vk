@@ -1,7 +1,4 @@
 @using No_Vk.Domain.Services
-@using Microsoft.AspNetCore.Components
-@using Microsoft.EntityFrameworkCore.Migrations.Operations
-@using No_Vk.Types
 
 @model No_Vk.Domain.Models.ViewModels.ChatViewModel
 
@@ -28,10 +25,10 @@
         <br />
         Добавить друзей в чат
         <br />
-        @foreach(var user in _userData.GetFriendsAsUser())
+        @foreach(var friend in _userData.GetMe().Friends)
         {
-            @user.Login
-            @Html.CheckBoxFor(model => Model.Users[user.Id])
+            @friend.User.Login
+            @Html.CheckBoxFor(model => Model.Users[friend.User.Id])
             <br />
         }
     </div>

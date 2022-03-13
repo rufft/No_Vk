@@ -57,25 +57,23 @@ namespace No_Vk.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Friend1Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Friend2Id")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Friend1Id");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("Friend2Id");
-
-                    b.ToTable("Friends");
+                    b.ToTable("Friend");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AddresseeId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
@@ -90,12 +88,9 @@ namespace No_Vk.Domain.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AddresseeId");
 
                     b.ToTable("Notices");
                 });
@@ -170,26 +165,20 @@ namespace No_Vk.Domain.Migrations
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "Friend1")
-                        .WithMany()
-                        .HasForeignKey("Friend1Id");
+                    b.HasOne("No_Vk.Domain.Models.User", "User")
+                        .WithMany("Friends")
+                        .HasForeignKey("UserId");
 
-                    b.HasOne("No_Vk.Domain.Models.User", "Friend2")
-                        .WithMany()
-                        .HasForeignKey("Friend2Id");
-
-                    b.Navigation("Friend1");
-
-                    b.Navigation("Friend2");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "User")
+                    b.HasOne("No_Vk.Domain.Models.User", "Addressee")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AddresseeId");
 
-                    b.Navigation("User");
+                    b.Navigation("Addressee");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Message", b =>
@@ -210,6 +199,11 @@ namespace No_Vk.Domain.Migrations
             modelBuilder.Entity("No_Vk.Domain.Models.Chat", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("No_Vk.Domain.Models.User", b =>
+                {
+                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

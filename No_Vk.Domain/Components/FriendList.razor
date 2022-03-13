@@ -3,7 +3,7 @@
 @using No_Vk.Domain.Models.Data
 @using No_Vk.Domain.Services
 
-@inject UserDataService userData
+@inject UserDataService _userData
 
 <div>
     @foreach(var friend in _friends)
@@ -17,6 +17,6 @@
 
     protected override void OnInitialized()
     {
-        _friends = userData.GetFriendsAsUser();
+        _friends = _userData.GetMe().Friends.Select(f => f.User);
     }
 }
