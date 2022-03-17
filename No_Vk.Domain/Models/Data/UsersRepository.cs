@@ -16,6 +16,7 @@ namespace No_Vk.Domain.Models.Data
         //TODO: Добавить include в методы!
         public IQueryable<User> GetUsers() => _context.Users
             .Include(u => u.Friends)
+            .ThenInclude(f => f.FriendUser)
             .Include(u => u.Chats)
             .ThenInclude(c => c.Users);
         public User GetUser(string id) => GetUsers().FirstOrDefault(u => u.Id == id);

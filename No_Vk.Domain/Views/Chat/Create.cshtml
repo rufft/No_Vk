@@ -27,8 +27,8 @@
         <br />
         @foreach(var friend in _userData.GetMe().Friends)
         {
-            @friend.User.Login
-            @Html.CheckBoxFor(model => Model.Users[friend.User.Id])
+            @friend.FriendUser.Login
+            @Html.CheckBoxFor(model => Model.UserIds[friend.FriendUser.Id])
             <br />
         }
     </div>

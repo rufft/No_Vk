@@ -18,8 +18,8 @@
         <br />
         @foreach(var friend in _userData.GetMe().Friends)
         {
-            @friend.User.Login
-            <input type="checkbox" @onchange="() => UpdateListOfUsers(friend.User)" />
+            @friend.FriendUser.Login
+            <input type="checkbox" @onchange="() => UpdateListOfUsers(friend.FriendUser)" />
             <br />
         }
     </div>

@@ -2,11 +2,8 @@
 using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models.Abstractions;
 using No_Vk.Domain.Models.Data;
-using No_Vk.Domain.Services;
-using System.Linq;
-using System.Text.Json;
 
-namespace No_Vk.Domain.Models.Notices
+namespace No_Vk.Domain.Services
 {
     public class NoticeHandlerService : INoticeHandlerService
     {
@@ -44,19 +41,19 @@ namespace No_Vk.Domain.Models.Notices
 
             if (address == null)
             {
-                _logger.LogError("User is Null");
+                _logger.LogError("Me is Null");
                 return;
             }
 
             try
             {
-                var addresseeAsFriend = notice.Addressee.ToFriend();
-                var addressAsFriend = address.ToFriend();
+                Friend addresseeFriend = new(notice.Addressee, address);
+                Friend addressFriend = new(address, notice.Addressee);
 
-                address.Friends.Add(addresseeAsFriend);
-                notice.Addressee.Friends.Add(addressAsFriend);
+                address.Friends.Add(addressFriend);
+                notice.Addressee.Friends.Add(addresseeFriend);
 
-                //_userRepository.DeleteNotice(notice);
+                _userRepository.DeleteNotice(notice);
                 _userRepository.Save();
             }
             catch (Exception e)

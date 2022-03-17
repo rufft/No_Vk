@@ -17,6 +17,6 @@
 
     protected override void OnInitialized()
     {
-        _friends = _userData.GetMe().Friends.Select(f => f.User);
+        _friends = _userData.GetMe().Friends.Select(f => f.FriendUser);
     }
 }

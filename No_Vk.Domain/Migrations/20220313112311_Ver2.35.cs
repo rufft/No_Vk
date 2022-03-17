@@ -8,15 +8,15 @@ namespace No_Vk.Domain.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Users_Users_UserId",
-                table: "Users");
+                table: "UserIds");
 
             migrationBuilder.DropIndex(
                 name: "IX_Users_UserId",
-                table: "Users");
+                table: "UserIds");
 
             migrationBuilder.DropColumn(
                 name: "UserId",
-                table: "Users");
+                table: "UserIds");
 
             migrationBuilder.CreateTable(
                 name: "Friend",
@@ -31,7 +31,7 @@ namespace No_Vk.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_Friend_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "UserIds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -49,20 +49,20 @@ namespace No_Vk.Domain.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "UserId",
-                table: "Users",
+                table: "UserIds",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserId",
-                table: "Users",
+                table: "UserIds",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Users_Users_UserId",
-                table: "Users",
+                table: "UserIds",
                 column: "UserId",
-                principalTable: "Users",
+                principalTable: "UserIds",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }

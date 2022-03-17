@@ -132,7 +132,7 @@ namespace No_Vk.Domain.Migrations
 
                     b.HasIndex("ChatId");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserIds");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
@@ -177,7 +177,7 @@ namespace No_Vk.Domain.Migrations
             modelBuilder.Entity("No_Vk.Domain.Models.Addressee", b =>
                 {
                     b.HasOne("No_Vk.Domain.Models.Chat", null)
-                        .WithMany("Users")
+                        .WithMany("UserIds")
                         .HasForeignKey("ChatId");
                 });
 
@@ -185,7 +185,7 @@ namespace No_Vk.Domain.Migrations
                 {
                     b.Navigation("Messages");
 
-                    b.Navigation("Users");
+                    b.Navigation("UserIds");
                 });
 #pragma warning restore 612, 618
         }

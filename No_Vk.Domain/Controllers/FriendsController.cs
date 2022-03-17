@@ -25,13 +25,18 @@ namespace No_Vk.Domain.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index() => View(_userData.GetMe().Friends.Select(f => f.User).ToList());
-        
+        public IActionResult Index()
+        {
+            User user = _userData.GetMe();
+            return View(_userData.GetMe()
+                .Friends.Select(f => f.FriendUser).ToList());
+        }
+
         [Route("AddFriend")]
         [HttpGet]
         public IActionResult AddFriend() => View();
 
-        [Route("AddFriend")]
+        [Route(@"AddFriend")]
         [HttpPost]
         public IActionResult AddFriend([FromForm] string email)
         {
@@ -90,7 +95,7 @@ namespace No_Vk.Domain.Controllers
             }
 
 
-            if (me.Friends.FirstOrDefault(f => f.User.Id == friendUser.Id) != null)
+            if (me.Friends.FirstOrDefault(f => f.FriendUser.Id == friendUser.Id) != null)
             {
                 ViewBag.Validation = "Этот пользователь уже ваш друг";
                 return View("AddFriend");

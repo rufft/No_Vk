@@ -11,7 +11,6 @@ using No_Vk.Domain.Models.Extensions;
 using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models.Abstractions;
 using No_Vk.Domain.Services;
-using No_Vk.Domain.Models.Notices;
 using No_Vk.Domain.Models.SignalRHubs;
 
 namespace No_Vk.Domain

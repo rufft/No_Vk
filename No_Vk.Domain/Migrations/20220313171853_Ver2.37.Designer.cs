@@ -124,7 +124,7 @@ namespace No_Vk.Domain.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("No_Vk.Domain.Models.User", b =>
+            modelBuilder.Entity("No_Vk.Domain.Models.Me", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,7 +147,7 @@ namespace No_Vk.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserIds");
                 });
 
             modelBuilder.Entity("ChatUser", b =>
@@ -158,7 +158,7 @@ namespace No_Vk.Domain.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("No_Vk.Domain.Models.User", null)
+                    b.HasOne("No_Vk.Domain.Models.Me", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -167,16 +167,16 @@ namespace No_Vk.Domain.Migrations
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "User")
+                    b.HasOne("No_Vk.Domain.Models.Me", "Me")
                         .WithMany("Friends")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("User");
+                    b.Navigation("Me");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "Addressee")
+                    b.HasOne("No_Vk.Domain.Models.Me", "Addressee")
                         .WithMany()
                         .HasForeignKey("AddresseeId");
 
@@ -189,7 +189,7 @@ namespace No_Vk.Domain.Migrations
                         .WithMany("Messages")
                         .HasForeignKey("ChatId");
 
-                    b.HasOne("No_Vk.Domain.Models.User", "FromUser")
+                    b.HasOne("No_Vk.Domain.Models.Me", "FromUser")
                         .WithMany()
                         .HasForeignKey("FromUserId");
 
@@ -203,7 +203,7 @@ namespace No_Vk.Domain.Migrations
                     b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("No_Vk.Domain.Models.User", b =>
+            modelBuilder.Entity("No_Vk.Domain.Models.Me", b =>
                 {
                     b.Navigation("Friends");
                 });

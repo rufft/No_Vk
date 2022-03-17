@@ -8,14 +8,14 @@ namespace No_Vk.Domain.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Name",
-                table: "Users");
+                table: "UserIds");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
                 name: "Name",
-                table: "Users",
+                table: "UserIds",
                 type: "nvarchar(max)",
                 nullable: true);
         }

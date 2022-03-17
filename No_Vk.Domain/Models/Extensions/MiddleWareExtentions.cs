@@ -8,7 +8,7 @@ namespace No_Vk.Domain.Models.Extensions
     {
         public static IApplicationBuilder UseNotAuthorizedUsersHeandler(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<NotAuthorizedUsersHeandler>();
+            return builder.UseMiddleware<NotAuthorizedUsersHandler>();
         }
 
         public static IApplicationBuilder UseAdminDefaultLogin(this IApplicationBuilder builder)

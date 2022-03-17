@@ -57,12 +57,17 @@ namespace No_Vk.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("FriendUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MyId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("FriendUserId");
+
+                    b.HasIndex("MyId");
 
                     b.ToTable("Friend");
                 });
@@ -145,7 +150,7 @@ namespace No_Vk.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserIds");
                 });
 
             modelBuilder.Entity("ChatUser", b =>
@@ -165,11 +170,17 @@ namespace No_Vk.Domain.Migrations
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "User")
-                        .WithMany("Friends")
-                        .HasForeignKey("UserId");
+                    b.HasOne("No_Vk.Domain.Models.User", "FriendUser")
+                        .WithMany()
+                        .HasForeignKey("FriendUserId");
 
-                    b.Navigation("User");
+                    b.HasOne("No_Vk.Domain.Models.User", "Me")
+                        .WithMany("Friends")
+                        .HasForeignKey("MyId");
+
+                    b.Navigation("FriendUser");
+
+                    b.Navigation("Me");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>

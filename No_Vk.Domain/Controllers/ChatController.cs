@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.ViewModels;
 using No_Vk.Domain.Services;
@@ -11,11 +12,13 @@ namespace No_Vk.Domain.Controllers
     {
         private readonly IChatHandlerService _chatHandler;
         private readonly IUserDataService _userData;
+        private readonly ILogger<ChatController> _logger;
 
-        public ChatController(IChatHandlerService chatHandler, IUserDataService userData)
+        public ChatController(IChatHandlerService chatHandler, IUserDataService userData, ILogger<ChatController> logger)
         {
             _chatHandler = chatHandler;
             _userData = userData;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -31,12 +34,26 @@ namespace No_Vk.Domain.Controllers
         [HttpPost]
         public IActionResult Create(ChatViewModel model)
         {
-            List<string> usersId = model.Users
+            if (!ModelState.IsValid) { return View(model); }
+            
+            if (model == null)
+            {
+                _logger.LogError("ChatViewModel model is Null ERROR");
+                return View();
+            }
+
+            if (!model.UserIds.Any())
+            {
+                ViewBag.Validation = "Добавьте друзей в чат";
+                return View();
+            }
+            
+            List<string> userIds = model.UserIds
                 .Where(d => d.Value)
                 .Select(d => d.Key).ToList();
             
-            usersId.Add(_userData.GetMe().Id);
-            _chatHandler.CreateChat(model.ChatTarget, usersId.ToArray());
+            userIds.Add(_userData.GetMe().Id);
+            _chatHandler.CreateChat(model.ChatTarget, userIds.ToArray());
             return View("index");
         }
     }

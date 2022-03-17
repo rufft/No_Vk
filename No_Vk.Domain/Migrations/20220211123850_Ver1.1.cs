@@ -19,7 +19,7 @@ namespace No_Vk.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "UserIds",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -54,7 +54,7 @@ namespace No_Vk.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_Messages_Users_FromUserId",
                         column: x => x.FromUserId,
-                        principalTable: "Users",
+                        principalTable: "UserIds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -80,7 +80,7 @@ namespace No_Vk.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_Participants_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "UserIds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -118,7 +118,7 @@ namespace No_Vk.Domain.Migrations
                 name: "Chats");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "UserIds");
         }
     }
 }

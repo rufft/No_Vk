@@ -8,7 +8,7 @@ namespace No_Vk.Domain.Migrations
         {
             migrationBuilder.AddColumn<string>(
                 name: "Role",
-                table: "Users",
+                table: "UserIds",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -17,7 +17,7 @@ namespace No_Vk.Domain.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Role",
-                table: "Users");
+                table: "UserIds");
         }
     }
 }

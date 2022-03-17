@@ -37,7 +37,7 @@ namespace No_Vk.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_ChatUser_Users_UsersId",
                         column: x => x.UsersId,
-                        principalTable: "Users",
+                        principalTable: "UserIds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -68,7 +68,7 @@ namespace No_Vk.Domain.Migrations
                 name: "FK_Chats_Users_UserId",
                 table: "Chats",
                 column: "UserId",
-                principalTable: "Users",
+                principalTable: "UserIds",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }

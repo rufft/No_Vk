@@ -20,13 +20,13 @@ namespace No_Vk.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_Friends_Users_Friend1Id",
                         column: x => x.Friend1Id,
-                        principalTable: "Users",
+                        principalTable: "UserIds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Friends_Users_Friend2Id",
                         column: x => x.Friend2Id,
-                        principalTable: "Users",
+                        principalTable: "UserIds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });

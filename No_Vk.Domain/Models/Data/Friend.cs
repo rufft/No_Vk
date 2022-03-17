@@ -1,22 +1,27 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using No_Vk.Domain.Models.Abstractions;
 
 namespace No_Vk.Domain.Models.Data
 {
-    public class Friend : IIdentifier
+    public sealed class Friend : IIdentifier
     {
         //TODO: Remove this constructor
         public Friend() { }
-        public Friend(User user)
+        public Friend(User user, User friendUser)
         {
-            User = user;
-            UserId = user.Id;
+            Me = user;
+            MyId = user.Id;
+            FriendUser = friendUser;
         }
         
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public string Id { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
+        
+        public string MyId { get; set; }
+        public User Me { get; set; }
+        
+        public User FriendUser { get; set; }
     }
 }

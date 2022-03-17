@@ -8,7 +8,7 @@ namespace No_Vk.Domain.Migrations
         {
             migrationBuilder.AlterColumn<int>(
                 name: "Role",
-                table: "Users",
+                table: "UserIds",
                 type: "int",
                 nullable: false,
                 defaultValue: 0,
@@ -21,7 +21,7 @@ namespace No_Vk.Domain.Migrations
         {
             migrationBuilder.AlterColumn<string>(
                 name: "Role",
-                table: "Users",
+                table: "UserIds",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(int),

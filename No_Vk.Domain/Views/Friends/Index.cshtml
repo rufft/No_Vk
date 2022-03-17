@@ -3,7 +3,7 @@
 
 @foreach(var user in Model)
 {
-    <div class="frind-c">
+    <div>
         <div>@user.Login</div>
         <form asp-controller="User" asp-action="Index" method="post">
             <input type="hidden" name="addresseeId" value="@user.Id" />

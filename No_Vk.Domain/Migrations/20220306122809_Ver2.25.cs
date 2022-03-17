@@ -41,7 +41,7 @@ namespace No_Vk.Domain.Migrations
                 name: "FK_ChatUser_Users_UserId",
                 table: "ChatUser",
                 column: "UserId",
-                principalTable: "Users",
+                principalTable: "UserIds",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -83,7 +83,7 @@ namespace No_Vk.Domain.Migrations
                 name: "FK_ChatUser_Users_UsersId",
                 table: "ChatUser",
                 column: "UsersId",
-                principalTable: "Users",
+                principalTable: "UserIds",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }

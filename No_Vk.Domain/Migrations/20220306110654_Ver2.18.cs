@@ -8,15 +8,15 @@ namespace No_Vk.Domain.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Users_Chats_ChatId",
-                table: "Users");
+                table: "UserIds");
 
             migrationBuilder.DropIndex(
                 name: "IX_Users_ChatId",
-                table: "Users");
+                table: "UserIds");
 
             migrationBuilder.DropColumn(
                 name: "ChatId",
-                table: "Users");
+                table: "UserIds");
 
             migrationBuilder.CreateTable(
                 name: "ChatUser",
@@ -37,7 +37,7 @@ namespace No_Vk.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_ChatUser_Users_UsersId",
                         column: x => x.UsersId,
-                        principalTable: "Users",
+                        principalTable: "UserIds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -55,18 +55,18 @@ namespace No_Vk.Domain.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "ChatId",
-                table: "Users",
+                table: "UserIds",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_ChatId",
-                table: "Users",
+                table: "UserIds",
                 column: "ChatId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Users_Chats_ChatId",
-                table: "Users",
+                table: "UserIds",
                 column: "ChatId",
                 principalTable: "Chats",
                 principalColumn: "Id",

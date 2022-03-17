@@ -22,8 +22,8 @@ namespace No_Vk.Domain.Services
 
         public User GetMe()
         {
-            if (!_httpContextAccessor.HttpContext.Session.Keys.Contains("Addressee")) return null;
-            var user = _usersRepository.GetUser(_httpContextAccessor.HttpContext.Session.GetString("Addressee"));
+            if (!_httpContextAccessor.HttpContext.Session.Keys.Contains("User")) return null;
+            var user = _usersRepository.GetUser(_httpContextAccessor.HttpContext.Session.GetString("User"));
             return user ?? null;
         }
 

@@ -3,9 +3,11 @@ using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace No_Vk.Domain.Models.Data
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class UserDbContext : DbContext
     {
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options) { }
@@ -16,12 +18,12 @@ namespace No_Vk.Domain.Models.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Friends)
-                .WithOne(f => f.User)
-                .HasForeignKey(f => f.UserId);
+            modelBuilder.Entity<Friend>()
+                .HasOne(f => f.Me)
+                .WithMany(u => u.Friends)
+                .HasForeignKey(f => f.MyId);
 
-                modelBuilder.Entity<User>()
+            modelBuilder.Entity<User>()
                 .HasMany(u => u.Chats)
                 .WithMany(c => c.Users)
                 .UsingEntity<Dictionary<string, object>>(

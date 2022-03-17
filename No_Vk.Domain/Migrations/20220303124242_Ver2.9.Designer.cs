@@ -132,7 +132,7 @@ namespace No_Vk.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserIds");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Chat", b =>

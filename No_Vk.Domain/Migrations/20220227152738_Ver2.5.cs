@@ -75,7 +75,7 @@ namespace No_Vk.Domain.Migrations
                 name: "FK_Friends_Users_Friend1Id",
                 table: "Friends",
                 column: "Friend1Id",
-                principalTable: "Users",
+                principalTable: "UserIds",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
@@ -83,7 +83,7 @@ namespace No_Vk.Domain.Migrations
                 name: "FK_Friends_Users_Friend2Id",
                 table: "Friends",
                 column: "Friend2Id",
-                principalTable: "Users",
+                principalTable: "UserIds",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }

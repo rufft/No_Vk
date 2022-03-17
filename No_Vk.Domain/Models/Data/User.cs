@@ -25,8 +25,7 @@ namespace No_Vk.Domain.Models
         
         public DateTime CreatedTime { get; set; }
         public List<Chat> Chats { get; set; }
-        public List<Friend> Friends { get; set; }
-
-        public Friend ToFriend() => new(this);
+        public virtual List<Friend> Friends { get; set; }
+        
     }
 }
