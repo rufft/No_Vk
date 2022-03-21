@@ -4,6 +4,6 @@ namespace No_Vk.Domain.Models.Abstractions
 {
     public interface IIdentifier
     {
-        public string Id { get; set; }
+        public string Id { get; init; }
     }
 }

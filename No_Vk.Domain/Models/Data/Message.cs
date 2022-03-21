@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace No_Vk.Domain.Models
 {
-    public class Message : IMessage
+    public class Message : IIdentifier
     {
         private Message() { }
         public Message(User fromUser, Chat chat, string messageText)
@@ -16,10 +16,10 @@ namespace No_Vk.Domain.Models
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
-        public User FromUser { get; set; }
-        public Chat Chat { get; set; }
-        public DateTime MessageCreationTime { get; set; }
+        public string Id { get; init; }
+        public User FromUser { get; }
+        public Chat Chat { get; }
+        public DateTime MessageCreationTime { get; }
         public string MessageText { get; set; }
     }
 }

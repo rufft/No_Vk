@@ -8,7 +8,7 @@ namespace No_Vk.Domain.Models.ViewModels
     {
         public ChatBindingTarget ChatTarget { get; set; }
         
-        [HasSome(1)]
+        [HasSome(1, ErrorMessage = "Добавьте друзей")]
         public Dictionary<string, bool> UserIds { get; set; }
     }
 }

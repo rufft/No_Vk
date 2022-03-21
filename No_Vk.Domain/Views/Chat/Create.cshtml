@@ -2,7 +2,7 @@
 
 @model No_Vk.Domain.Models.ViewModels.ChatViewModel
 
-@inject IUserDataService _userData
+@inject ILoggedInUserSessionService _loggedInUser
 @inject IChatHandlerService _chatData
 
 @{
@@ -25,9 +25,9 @@
         <br />
         Добавить друзей в чат
         <br />
-        @foreach(var friend in _userData.GetMe().Friends)
+        @foreach(var friend in _loggedInUser.Me.Friends)
         {
-            @friend.FriendUser.Login
+            @friend.FriendUser.UserName
             @Html.CheckBoxFor(model => Model.UserIds[friend.FriendUser.Id])
             <br />
         }

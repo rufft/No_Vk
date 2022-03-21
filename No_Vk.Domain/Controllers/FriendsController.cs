@@ -14,21 +14,20 @@ namespace No_Vk.Domain.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly ILogger<FriendsController> _logger;
-        private readonly IUserDataService _userData;
+        private readonly ILoggedInUserSessionService _loggedInUserSession;
         public FriendsController(ILogger<FriendsController> logger,
             IUserRepository userRepository,
-            IUserDataService userData)
+            ILoggedInUserSessionService loggedInUserSession)
         {
             _userRepository = userRepository;
             _logger = logger;
-            _userData = userData;
+            _loggedInUserSession = loggedInUserSession;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            User user = _userData.GetMe();
-            return View(_userData.GetMe()
+            return View(_loggedInUserSession.Me
                 .Friends.Select(f => f.FriendUser).ToList());
         }
 

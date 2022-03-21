@@ -1,32 +1,29 @@
 ﻿using System;
 using No_Vk.Domain.Models.Abstractions;
-using No_Vk.Domain.Models.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace No_Vk.Domain.Models
 {
-    public class Chat : IChat
+    public class Chat : IIdentifier
     {
+        private Chat() { }
         public Chat(string name, List<User> users) 
         {
             Name = name;
-            Users = users;
             Messages = new();
-            Users = new();
-        }
-        public Chat(string name)
-        {
-            Name = name;
-        }
+            Users = users;
 
+            ChatCreationTime = DateTime.Now;
+        }
+        
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        public string Id { get; init; }
         public string Name { get; set; }
-        public DateTime ChatCreationTime { get; set; }
+        public DateTime ChatCreationTime { get; }
 
         public List<Message> Messages { get; set; }
         public List<User> Users { get; set; }
+
     }
 }

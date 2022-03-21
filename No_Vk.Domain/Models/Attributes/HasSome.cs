@@ -14,9 +14,7 @@ namespace No_Vk.Domain.Models.Attributes
 
         public override bool IsValid(object value)
         {
-            ICollection collection = value as ICollection;
-            
-            if (collection == null) { return false; }
+            if (value is not ICollection collection) { return false; }
 
             return collection.Count >= _minCount;
         }

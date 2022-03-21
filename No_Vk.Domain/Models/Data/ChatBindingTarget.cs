@@ -6,7 +6,7 @@ namespace No_Vk.Domain.Models.Data
 {
     public class ChatBindingTarget
     {
-        [Required]
+        [Required(ErrorMessage = "Введите имя чата")]
         public string Name { get; set; }
 
         public Chat ToChat()

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Data;
 using No_Vk.Domain.Models.Abstractions;
+using No_Vk.Domain.Models.Extensions;
 
 namespace No_Vk.Domain.Controllers
 {
@@ -79,12 +80,12 @@ namespace No_Vk.Domain.Controllers
 
             try
             {
-                HttpContext.Session.SetString("Addressee", user.Id);
+                HttpContext.Session.SetObject("User", user.ToSessionUser());
             }
             catch (Exception e)
             {
                 string message = e.Message;
-                _logger.LogError("Set string Addressee to session ERROR: {Message}", message);
+                _logger.LogError("Set SessionUser to session ERROR: {Message}", message);
                 return View();
             }
             

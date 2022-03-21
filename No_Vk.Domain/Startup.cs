@@ -29,12 +29,10 @@ namespace No_Vk.Domain
         {
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
-            services.AddDbContext<UserDbContext>(opts =>
-            {
-                opts.UseSqlServer(Configuration.GetConnectionString("no_vkConnection"));
+            services.AddDbContext<UserDbContext>(opts => {
+                opts.UseNpgsql(Configuration.GetConnectionString("no_vkConnection"));
             });
-            services.AddSession(opts =>
-            {
+            services.AddSession(opts => {
                 opts.IdleTimeout = TimeSpan.FromSeconds(600);
             });
             services.AddLogging();
@@ -43,7 +41,7 @@ namespace No_Vk.Domain
             services.AddScoped<IUserRepository, UsersRepository>();
             services.AddScoped<INoticeHandlerService, NoticeHandlerService>();
             services.AddScoped<IChatHandlerService, ChatHandlerService>();
-            services.AddScoped<IUserDataService, UserDataService>();
+            services.AddScoped<ILoggedInUserSessionService, LoggedInUserSessionService>();
             services.AddSignalR();
         }
 
@@ -70,7 +68,7 @@ namespace No_Vk.Domain
             app.UseAuthorization();
 
             app.UseAdminDefaultLogin();
-            app.UseNotAuthorizedUsersHeandler();
+            app.UseLogoutUsersHandler();
 
             app.UseEndpoints(endpoints =>
             {
@@ -79,7 +77,6 @@ namespace No_Vk.Domain
                 endpoints.MapBlazorHub();
                 endpoints.MapHub<ChatHub>(ChatHub.Url);
                 endpoints.MapFallbackToPage("/chats/{*catchall}", "/Chats/IndexChats");
-                //endpoints.MapFallbackToPage("/chat/{ChatId}", "/Chats/IndexChats");
                 endpoints.MapFallbackToPage("/notice/{*catchall}", "/Notice/IndexNotice");
             });
 

@@ -1,12 +1,13 @@
 ﻿@page "/chats"
 @using No_Vk.Domain.Services
 
-@inject IUserDataService _userData
+@inject ILoggedInUserSessionService _loggedInUserSession
 
 <h3>Chats</h3>
 <br />
-
-@foreach (var chat in _userData.GetMe().Chats)
+@{//TODO: Get chats in foreach
+}
+@*@foreach (var chat in _loggedInUserSession.Me.Chats)
 {
     var link = $"/chat/{chat.Id}";
     <div>
@@ -16,4 +17,4 @@
            <h5>@user.Login</h5>
        }
     </div>
-}
+}*@

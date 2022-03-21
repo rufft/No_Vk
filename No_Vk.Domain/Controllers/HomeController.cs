@@ -8,19 +8,19 @@ namespace No_Vk.Domain.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IUserDataService _userData;
+        private readonly ILoggedInUserSessionService _loggedInUserSession;
         private IUserRepository _userRepository;
 
-        public HomeController(ILogger<HomeController> logger, IUserDataService userDataService, IUserRepository userRepository)
+        public HomeController(ILogger<HomeController> logger, ILoggedInUserSessionService loggedInUserSessionService, IUserRepository userRepository)
         {
             _logger = logger;
-            _userData = userDataService;
+            _loggedInUserSession = loggedInUserSessionService;
             _userRepository = userRepository;
         }
 
         public IActionResult Index()
         {
-            var user = _userData.GetMe();
+            //_loggedInUserData.I++;
             return View();
         }
     }

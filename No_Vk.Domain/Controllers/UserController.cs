@@ -7,12 +7,12 @@ namespace No_Vk.Domain.Controllers
 {
     public class UserController : Controller
     {
-        private IUserDataService _userData;
+        private ILoggedInUserSessionService _loggedInUserSession;
         private IUserRepository _userRepository;
 
-        public UserController(IUserDataService userData, IUserRepository userRepository)
+        public UserController(ILoggedInUserSessionService loggedInUserSession, IUserRepository userRepository)
         {
-            _userData = userData;
+            _loggedInUserSession = loggedInUserSession;
             _userRepository = userRepository;
         }
 

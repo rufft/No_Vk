@@ -3,7 +3,7 @@
 @using No_Vk.Domain.Services
 
 @inject IUserRepository _userRepository
-@inject IUserDataService _userData
+@inject ILoggedInUserSessionService _loggedInUserSession
 @inject INoticeHandlerService _noticeHandler
 
 <h3>Notices</h3>
@@ -41,7 +41,7 @@
 
     protected override void OnInitialized()
     {
-        _me = _userData.GetMe();
+        _me = _loggedInUserSession.Me;
         _myNotices = GetList();
     }
 

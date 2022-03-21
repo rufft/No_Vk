@@ -8,7 +8,7 @@
 
 @inject IUserRepository _userRepository 
 @inject IChatHandlerService _chatHandler 
-@inject IUserDataService _userData 
+@inject ILoggedInUserSessionService _loggedInUserSession 
 @inject NavigationManager _navigationManager
 @inject ILogger<Chat> _logger
 
@@ -24,13 +24,13 @@
     {
         <div class="message">
             (@message.MessageCreationTime.Date) (@message.MessageCreationTime.TimeOfDay)
-            @message.FromUser.Login :
+            @message.FromUser.UserName :
             @message.MessageText
         </div>
     }
 </div>
 <input type="text" @bind="_messageText"/>
-<button @onclick="() => Send(GetMessageFromString())">Отправить</button>
+<button @onclick="() => SendAsync(GetMessageFromString())">Отправить</button>
 <style>
     .info {
         border: solid 2px black;
@@ -64,7 +64,7 @@
     private string _hubUrl;
     private HubConnection _hubConnection;
 
-    private void GetChatHub()
+    private async Task GetChatHubAsync()
     {
         var baseUrl = _navigationManager.BaseUri;
 
@@ -76,32 +76,32 @@
 
         _hubConnection.On("Broadcast", BroadcastMessage);
 
-        _hubConnection.StartAsync();
+        await _hubConnection.StartAsync();
 
     }
 
-    private void BroadcastMessage()
+    private async Task BroadcastMessage()
     {
-        _chat = _userRepository.GetChat(ChatId);
+        _chat = await _userRepository.GetChatAsync(ChatId);
         _chatMessages = _chat?.Messages?.OrderBy(m => m.MessageCreationTime).ToList();
 
         StateHasChanged();
     }
 
-    private void Send(Message message)
+    private async Task SendAsync(Message message)
     {
-        _chatHandler.SendMessageToDatabase(_chat, message);
-        _hubConnection.SendAsync("Broadcast");
+        await _chatHandler.AddMessageToDatabaseAsync(_chat, message);
+        await _hubConnection.SendAsync("Broadcast");
     }
 
     private Message GetMessageFromString() => new(_me, _chat, _messageText);
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        _chat = _userRepository.GetChat(ChatId);
+        _chat = await _userRepository.GetChatAsync(ChatId);
         _chatMessages = _chat?.Messages?.OrderByDescending(m => m.MessageCreationTime).ToList();
-        GetChatHub();
-        _me = _userData.GetMe();
+        await GetChatHubAsync();
+        _me = _loggedInUserSession.Me;
     }
 
 }

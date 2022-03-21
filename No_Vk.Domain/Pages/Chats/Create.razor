@@ -3,7 +3,7 @@
 @using No_Vk.Domain.Models.ViewModels
 @using No_Vk.Domain.Services
 
-@inject IUserDataService _userData
+@inject ILoggedInUserSessionService _loggedInUserSession
 @inject IChatHandlerService _chatData
 
 <form action="" method="post">
@@ -16,9 +16,9 @@
         <br />
         Добавить друзей в чат
         <br />
-        @foreach(var friend in _userData.GetMe().Friends)
+        @foreach(var friend in _loggedInUserSession.Me.Friends)
         {
-            @friend.FriendUser.Login
+            @friend.FriendUser.UserName
             <input type="checkbox" @onchange="() => UpdateListOfUsers(friend.FriendUser)" />
             <br />
         }
@@ -33,13 +33,13 @@
     protected override void OnInitialized()
     {
         _chatTarget = new();
-        _users = new() { _userData.GetMe() };
+        _users = new() { _loggedInUserSession.Me };
     }
 
 
     private void Submit()
     {
-        _chatData.CreateChat(_chatTarget, _users.ToArray());
+        _chatData.CreateChatAsync(_chatTarget, _users.Select(u => u.Id).ToArray());
     }
 
     private void UpdateListOfUsers(User user)

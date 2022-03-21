@@ -1,14 +1,13 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using No_Vk.Domain.Models.Abstractions;
 
 namespace No_Vk.Domain.Models.Data
 {
-    public sealed class Friend : IIdentifier
+    public class Friend : IIdentifier
     {
-        //TODO: Remove this constructor
-        public Friend() { }
+        private Friend() { }
+
         public Friend(User user, User friendUser)
         {
             Me = user;
@@ -17,11 +16,11 @@ namespace No_Vk.Domain.Models.Data
         }
         
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
-        public string Id { get; set; }
+        public string Id { get; init; }
         
-        public string MyId { get; set; }
-        public User Me { get; set; }
+        public string MyId { get; }
+        public User Me { get; }
         
-        public User FriendUser { get; set; }
+        public User FriendUser { get; }
     }
 }
