@@ -17,24 +17,21 @@ namespace No_Vk.Domain.Models.Attributes
         {
             if (value?.ToString() == null)
             {
-                ErrorMessage = "¬ведите логин";
+                ErrorMessage = "Enter login";
                 return false;
             }
 
-            string login = value.ToString();
+            var login = value.ToString();
             
-            bool isLenghtValid = login.Length >= _minLenght && login.Length <= _maxLenght;
+            var isLenghtValid = login.Length >= _minLenght && login.Length <= _maxLenght;
             if (isLenghtValid)
             {
-                if (login.Contains(" "))
-                {
-                    ErrorMessage = "Ћогин не должен содержать пробелов";
-                    return false;
-                }
-                return true;
+                if (!login.Contains(" ")) return true;
+                ErrorMessage = "The login should not contain spaces";
+                return false;
             }
 
-            ErrorMessage = "Ћогин не подходит по длине";
+            ErrorMessage = $"Login does not fit the size. From {_minLenght} to {_maxLenght}";
             return false;
         }
     }

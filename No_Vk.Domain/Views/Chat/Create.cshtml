@@ -6,33 +6,31 @@
 @inject IChatHandlerService _chatData
 
 @{
-    Layout = null;
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
+<form class="form" method="post">
+    <div class="validation" asp-validation-summary="All"></div>
+    <div class="input-items">
+        <div class="input-item">
+            <label asp-for="ChatTarget.Name">Enter the chat name</label>
+            <div asp-validation-for="Login"></div>
+            <input placeholder="Your chat" class="input" asp-for="ChatTarget.Name">
+        </div>
+        <div class="input-item">
+            <label>Add friends to the chat</label>
+            <div class="friend-checkboxes">
+                @foreach(var friend in (await _userData.GetMeAsync())?.Friends)
+                {
+                    @friend.FriendUser.Login
+                    @Html.CheckBoxFor(model => Model.UserIds[friend.FriendUser.Id])
+                    <br />
+                }
+            </div>
 
-<html lang="ru">
-<head>
-    <title>title</title>
-</head>
-<body>
-<form method="post">
-    <div>
-        Введите имя чата
-        <input asp-for="ChatTarget.Name" />
+        </div>
     </div>
-    <div>
-        <br />
-        Добавить друзей в чат
-        <br />
-        @foreach(var friend in _userData.GetMe().Friends)
-        {
-            @friend.FriendUser.Login
-            @Html.CheckBoxFor(model => Model.UserIds[friend.FriendUser.Id])
-            <br />
-        }
+    <div class="submit-container">
+        <button class="submit" type="submit">Create chat</button>
     </div>
-    <button type="submit">Создать чат</button>
 </form>
-</body>
-</html>

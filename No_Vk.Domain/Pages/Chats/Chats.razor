@@ -11,7 +11,7 @@
     var link = $"/chat/{chat.Id}";
     <div>
         <h2><NavLink href="@link">@chat.Name</NavLink></h2>
-        @foreach (var user in @chat.Users)
+        @foreach (var user in chat.Users)
        {
            <h5>@user.Login</h5>
        }

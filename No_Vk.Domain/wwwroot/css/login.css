@@ -1,0 +1,81 @@
+:root {
+    --space-g: 2.5em;
+
+    --error-color: #ff5b5b;
+    --focus-color: white;
+    --unfocus-color: #b9b9b9;
+    --submit-selected-color: #4b68ff;
+    --form-background-color: #e5e5e5;
+
+    --color-change-time: 0.2s;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --form-background-color: #131313;
+    }
+}
+
+.input:focus, .input:hover {
+    outline: none;
+    border: none;
+    background-color: var(--focus-color);
+
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    background-color: var(--form-background-color);
+    border-radius: var(--br);
+    padding: var(--space-exl);
+}
+
+.input-items, .form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-g);
+}
+
+.input-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.validation, .server-error { 
+    color: var(--error-color);
+}
+
+.input {
+    min-height: 3vh;
+    min-width: 15vw;
+    border: none;
+    border-radius: var(--br);
+    padding: var(--space);
+    outline: none;
+    background-color: var(--unfocus-color);
+    transition: background-color var(--color-change-time);
+}
+
+.input:not(:placeholder-shown){
+    background-color: var(--focus-color);
+}
+
+.submit {
+    border: none;
+    border-radius: var(--br);
+    padding: var(--space);
+    background-color: var(--focus-color);
+    transition: background-color var(--color-change-time);
+}
+.submit:hover, .submit:focus {
+    background-color: var(--submit-selected-color);
+    border: none;
+    outline: none;
+}

@@ -12,14 +12,14 @@ namespace No_Vk.Domain.Controllers
 {
     public class FriendsController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly UserDbContext _dbContext;
         private readonly ILogger<FriendsController> _logger;
         private readonly IUserDataService _userData;
         public FriendsController(ILogger<FriendsController> logger,
-            IUserRepository userRepository,
+            UserDbContext dbContext,
             IUserDataService userData)
         {
-            _userRepository = userRepository;
+            _dbContext = dbContext;
             _logger = logger;
             _userData = userData;
         }
@@ -27,94 +27,97 @@ namespace No_Vk.Domain.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            User user = _userData.GetMe();
-            return View(_userData.GetMe()
-                .Friends.Select(f => f.FriendUser).ToList());
+            var user = _userData.GetMe();
+            return View(user
+                .Friends.Select(f => f.FriendId).ToList());
         }
 
-        [Route("AddFriend")]
         [HttpGet]
         public IActionResult AddFriend() => View();
 
-        [Route(@"AddFriend")]
         [HttpPost]
         public IActionResult AddFriend([FromForm] string email)
         {
             if (string.IsNullOrEmpty(email))
             {
-                ViewBag.Validation = "Введите почту";
+                ViewBag.Validation = "Enter email";
                 return View("AddFriend");
             }
 
             email = email.Trim();
-            User friendUser = _userRepository.GetUsers().FirstOrDefault(u => u.Email == email);
+            var friendUser = _dbContext.Users.FirstOrDefault(u => u.Email == email);
 
             if (friendUser == null)
             {
-                ViewBag.Validation = "Такого пользователя нет";
+                ViewBag.Validation = "There is no such user";
                 return View("AddFriend");
             }
 
-            if (!HttpContext.Session.Keys.Contains("Addressee"))
+            if (!HttpContext.Session.Keys.Contains("User"))
             { return RedirectToAction("Login", "Login"); }
             
-            string myId = HttpContext.Session.GetString("Addressee");
             
-            if (string.IsNullOrEmpty(myId))
-            { return RedirectToAction("Login", "Login"); }
-            
-            User me = _userRepository.GetUser(myId);
+            var me = _userData.GetMe();
 
             if (User == null)
             { return RedirectToAction("Login", "Login"); }
 
             if (me?.Id == friendUser.Id)
             {
-                ViewBag.Validation = "Вы уже дружите с собой)";
+                ViewBag.Validation = "You are already friends with yourself)";
                 return View("AddFriend");
             }
 
             try
             {
-                var addFriendNotice = _userRepository.GetNotices()
-                    .Where(n => n.Object == me.Id && n.Type == NoticeType.FriendInvite);
-            
-                if (addFriendNotice.Select(n => n.Addressee.Id).Contains(friendUser.Id))
+                var notices = _dbContext.Notices;
+                if (notices.Any())
                 {
-                    ViewBag.Validation = "Вы уже отправили запрос этому человеку";
-                    return View("AddFriend");
+                    var addFriendNotice = notices
+                        .Where(n => n.Object == me.Id && n.Type == NoticeType.FriendInvite);
+                    if (addFriendNotice.Any())
+                    {
+                        if (addFriendNotice.Select(n => n.Addressee.Id).Contains(friendUser.Id))
+                        {
+                            ViewBag.Validation = "You have already sent a invite to this person";
+                            return View("AddFriend");
+                        }
+                    }
                 }
+
+
+
             }
             catch (Exception e)
             {
                 var message = e.Message;
                 _logger.LogError("Get notice ERROR: {Message}", message);
                 
-                ViewBag.Errors = "Ошибка сервера";
+                ViewBag.Errors = "Server error";
                 return View("AddFriend");
             }
 
 
-            if (me.Friends.FirstOrDefault(f => f.FriendUser.Id == friendUser.Id) != null)
+            if (me.Friends.FirstOrDefault(f => f.FriendId == friendUser.Id) != null)
             {
-                ViewBag.Validation = "Этот пользователь уже ваш друг";
+                ViewBag.Validation = "This user is already your friend";
                 return View("AddFriend");
             }
 
-            Notice notice = new("Запрос на добавление в друзья", friendUser, "", myId, NoticeType.FriendInvite);
+            Notice notice = new("Friend Invite", friendUser, $"{me.Login} wants to add you as a friend", me.Id, NoticeType.FriendInvite);
 
             try
             {
-                _userRepository.AddNotice(notice);
+                _dbContext.Notices.Add(notice);
             
-                _userRepository.Save();
+                _dbContext.SaveChanges();
             }
             catch (Exception e)
             {
                 string message = e.Message;
                 _logger.LogError("On add notice ERROR: {Message}", message);
 
-                ViewBag.Errors = "Ошибка сервера";
+                ViewBag.Errors = "Server error";
                 return View("AddFriend");
             }
 

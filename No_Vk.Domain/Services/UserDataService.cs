@@ -1,42 +1,46 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using No_Vk.Domain.Models;
-using No_Vk.Domain.Models.Abstractions;
 using No_Vk.Domain.Models.Data;
-using No_Vk.Domain.Models.Extensions;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace No_Vk.Domain.Services
 {
     public class UserDataService : IUserDataService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserRepository _usersRepository;
+        private readonly UserDbContext _dbContext;
 
-        public UserDataService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
+        public UserDataService(IHttpContextAccessor httpContextAccessor, UserDbContext userDbContext)
         {
             _httpContextAccessor = httpContextAccessor; 
-            _usersRepository = userRepository;
+            _dbContext = userDbContext;
         }
 
         public User GetMe()
         {
             if (!_httpContextAccessor.HttpContext.Session.Keys.Contains("User")) return null;
-            var user = _usersRepository.GetUser(_httpContextAccessor.HttpContext.Session.GetString("User"));
-            return user ?? null;
+            var user = _dbContext.Find<User>(_httpContextAccessor.HttpContext.Session.GetString("User"));
+            return user;
+        }
+
+        public async Task<User> GetMeAsync()
+        {
+            if (!_httpContextAccessor.HttpContext.Session.Keys.Contains("User")) return null;
+            var user = await _dbContext.FindAsync<User>(_httpContextAccessor.HttpContext.Session.GetString("User"));
+            return user;
         }
 
         public IQueryable<Message> GetMessages()
         {
             var user = GetMe();
-            return user != null ? _usersRepository.GetMessages().Where(m => m.FromUser.Id == user.Id) : null;
+            return user != null ? _dbContext.Messages.Where(m => m.FromUser.Id == user.Id) : null;
         }
 
         public IQueryable<Notice> GetNotices()
         {
             var user = GetMe();
-            return user != null ? _usersRepository.GetNotices().Where(n => n.Addressee.Id == user.Id) : null;
+            return user != null ? _dbContext.Notices.Where(n => n.Addressee.Id == user.Id) : null;
         }
 
     }

@@ -1,8 +1,15 @@
-﻿@{
+﻿@using No_Vk.Domain.Models.Abstractions
+@inject UserDbContext _dbContext
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    
+        <div class="d-site-info">
+            @{
+                var user = _dbContext.Users.First();
+            }
+            @user.Id
+        </div>
 </div>

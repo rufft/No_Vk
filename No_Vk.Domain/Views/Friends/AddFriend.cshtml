@@ -4,11 +4,6 @@
     ViewData["Title"] = "Add friend";
 }
 
-<style>
-    .input-validation-error {
-        border-color: red;
-    }
-</style>
 <h3>@ViewBag.Validation</h3>
 <h3>@ViewBag.Errors</h3>
 
@@ -16,12 +11,12 @@
     <form method="post">
         <div class="inputs-c">
             <label>
-                Введите почту друга 
+                Enter email 
                 <input name="email">
             </label>
         </div>
         <div class="submit-i">
-            <button type="submit">Отправить запрос</button>
+            <button type="submit">Send invite</button>
         </div>
     </form>
 </div>

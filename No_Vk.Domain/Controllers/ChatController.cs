@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.ViewModels;
 using No_Vk.Domain.Services;
 
@@ -20,11 +19,7 @@ namespace No_Vk.Domain.Controllers
             _userData = userData;
             _logger = logger;
         }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
         [HttpGet]
         public IActionResult Create()
         {
@@ -44,17 +39,17 @@ namespace No_Vk.Domain.Controllers
 
             if (!model.UserIds.Any())
             {
-                ViewBag.Validation = "Добавьте друзей в чат";
+                ViewBag.Validation = "Need to add friends to the chat";
                 return View();
             }
             
-            List<string> userIds = model.UserIds
+            var userIds = model.UserIds
                 .Where(d => d.Value)
                 .Select(d => d.Key).ToList();
             
             userIds.Add(_userData.GetMe().Id);
-            _chatHandler.CreateChat(model.ChatTarget, userIds.ToArray());
-            return View("index");
+            _chatHandler.CreateChatAsync(model.ChatTarget, userIds.ToArray());
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models.Abstractions;
+using No_Vk.Domain.Models.Data;
 using No_Vk.Domain.Services;
 
 namespace No_Vk.Domain.Controllers
@@ -9,18 +10,18 @@ namespace No_Vk.Domain.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserDataService _userData;
-        private IUserRepository _userRepository;
+        private readonly UserDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger, IUserDataService userDataService, IUserRepository userRepository)
+        public HomeController(ILogger<HomeController> logger, IUserDataService userDataService, UserDbContext dbContext)
         {
             _logger = logger;
             _userData = userDataService;
-            _userRepository = userRepository;
+            _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index()    
         {
-            var user = _userData.GetMe();
+            var a = _userData.GetMe();
             return View();
         }
     }

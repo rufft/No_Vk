@@ -18,15 +18,24 @@ namespace No_Vk.Domain.Models.Attributes
 
         public override bool IsValid(object value)
         {
-            if (value?.ToString() == null)
+            if (value is not string password)
             {
-                ErrorMessage = "Введите пароль";
+                ErrorMessage = "Enter password";
                 return false;
             }
-            
-            if (value.ToString()?.Length < _minLength) { return false; }
 
-            string password = value.ToString();
+            if (string.IsNullOrEmpty(password))
+            {
+                ErrorMessage = "Enter password";
+                return false;
+            }
+
+            if (password.Length < _minLength)
+            {
+                ErrorMessage = $"Password must be longer then {_minLength}";
+                return false;
+            }
+
             
             foreach (var opt in _passwordOptions)
             {
@@ -35,21 +44,21 @@ namespace No_Vk.Domain.Models.Attributes
                     case PasswordOption.RequiredNumbers:
                         if (!Regex.IsMatch(password, @"(\d)"))
                         {
-                            ErrorMessage = "Минимум одна цифра в пароле";
+                            ErrorMessage = "There must be at least one digit in the password";
                             return false;
                         }
                         break;
                     case PasswordOption.RequiredCapitalLetter:
                         if (!Regex.IsMatch(password, @"[A-Z]"))
                         {
-                            ErrorMessage = "Минимум одна заглавная буква в пароле";
+                            ErrorMessage = "There must be at least one capital letter in the password";
                             return false;
                         }
                         break;
                     case PasswordOption.RequiredSpecialSymbols:
                         if (!Regex.IsMatch(password, @"[!\№\;\%\:@#$%\^&*\(\)\-_ =+?]"))
                         {
-                            ErrorMessage = "Минимум один специальный символ в пароле";
+                            ErrorMessage = "There must be at least one special symbol in the password";
                             return false;
                         }
                         break;

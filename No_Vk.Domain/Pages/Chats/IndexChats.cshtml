@@ -1,16 +1,6 @@
 ﻿@page "/chats"
 
-@{  Layout = null; }
+@{  Layout = "_ChatLayout"; }
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <title>No_Vk</title>
-    <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <base href="/" />  
-</head>
-<body>    
-    <component type="typeof(Routed)" render-mode="ServerPrerendered" />
-    <script src="/_framework/blazor.server.js"></script>
-</body>
-</html>
+<component type="typeof(Routed)" render-mode="ServerPrerendered" />
+<script src="/_framework/blazor.server.js"></script>

@@ -6,8 +6,10 @@ using No_Vk.Domain.Models.Data;
 
 namespace No_Vk.Domain.Models
 {
-    public class User : IUser
+    public sealed class User : IIdentifier
     {
+        private User() { }
+
         public User(string email, string login, string password, RoleNames role)
         {
             Email = email;
@@ -17,15 +19,14 @@ namespace No_Vk.Domain.Models
             CreatedTime = DateTime.Now;
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        public string Id { get; init; }
         public string Email { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public RoleNames Role { get; set; }
         
-        public DateTime CreatedTime { get; set; }
+        public DateTime CreatedTime { get; init; }
         public List<Chat> Chats { get; set; }
-        public virtual List<Friend> Friends { get; set; }
-        
+        public List<Friend> Friends { get; set; }
     }
 }

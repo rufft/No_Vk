@@ -3,29 +3,31 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace No_Vk.Domain.Models.Data
 {
-    public class Notice : IIdentifier
+    public sealed class Notice : IIdentifier
     {
-        public Notice() { }
-        public Notice(string name, User addressee, string description, string jsonModel, NoticeType type)
+        private Notice() { }
+
+        public Notice(string name, User addressee, string description, string @object, NoticeType type)
         {
             Name = name;
             Addressee = addressee;
             Description = description;
-            Object = jsonModel;
+            Object = @object;
             Type = type;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        public string Id { get; init; }
         public string Name { get; set; }
-        public User Addressee { get; set; }
+        public User Addressee { get; init; }
         public string Description { get; set; }
-        public string Object { get; set; }
-        public NoticeType Type { get; set; }
+        public string Object { get; init; }
+        public NoticeType Type { get; init; }
     }
 
     public enum NoticeType
     {
+        None,
         FriendInvite,
         ChatInvite
     }

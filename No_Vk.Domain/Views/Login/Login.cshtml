@@ -1,37 +1,20 @@
 ﻿@model UserRegistrationBindingTarget
 
 @{
+    Layout = "_Login";
     ViewData["Title"] = "Login";
 }
 
-<style>
-    .input-validation-error {
-        border-color: red;
-    }
-</style>
-<h3>@ViewBag.Validation</h3>
-<div class="main-c">
-    <form method="post">
-        <div class="inputs-c">
-            <label>
-                Введите почту
-                <br/>
-                <input asp-for="Email">
-                <span asp-validation-for="Email"></span>
 
-            </label>    
-            <br/>
-            <label>
-                Введите пароль
-                <br/>
-                <span asp-validation-for="Password"></span>
-                <input asp-for="Password">
-            </label>
-        </div>
-        <div class="submit-i">
-            <button type="submit">Подтвердить</button>
-        </div>
-    </form>
+<div class="input-item">
+    <label asp-for="Email">Enter email</label>
+    <input placeholder="Your email" class="input" asp-for="Email">
 </div>
+<div class="input-item">
+    <label asp-for="Password">Enter password</label>
+    <input placeholder="Your password" class="input" asp-for="Password" type="password">
+</div>
+
+
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

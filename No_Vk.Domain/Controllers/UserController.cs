@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Abstractions;
+using No_Vk.Domain.Models.Data;
 using No_Vk.Domain.Services;
 
 namespace No_Vk.Domain.Controllers
@@ -8,12 +9,12 @@ namespace No_Vk.Domain.Controllers
     public class UserController : Controller
     {
         private IUserDataService _userData;
-        private IUserRepository _userRepository;
+        private UserDbContext _dbContext;
 
-        public UserController(IUserDataService userData, IUserRepository userRepository)
+        public UserController(IUserDataService userData, UserDbContext dbContext)
         {
             _userData = userData;
-            _userRepository = userRepository;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()

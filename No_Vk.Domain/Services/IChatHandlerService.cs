@@ -1,12 +1,13 @@
-﻿using No_Vk.Domain.Models;
+﻿using System.Threading.Tasks;
+using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Data;
 
 namespace No_Vk.Domain.Services
 {
     public interface IChatHandlerService
     {
-        public void CreateChat(ChatBindingTarget chatBindingTarget, params User[] users);
-        public void CreateChat(ChatBindingTarget chatBindingTarget, params string[] usersId);
-        public void SendMessageToDatabase(Chat chat, Message message);
+        public Task CreateChatAsync(ChatBindingTarget chatBindingTarget, params User[] users);
+        public Task CreateChatAsync(ChatBindingTarget chatBindingTarget, params string[] usersId);
+        public Task CreateMessageAsync(Chat chat, Message message);
     }
 }

@@ -1,0 +1,14 @@
+@{
+    Layout = "_Layout";
+}
+
+<form class="form" method="post">
+    <div class="validation" asp-validation-summary="All"></div>
+    <div class="input-items">
+        @RenderBody()
+    </div>
+    <div class="submit-container">
+        <button class="submit" type="submit">Submit</button>
+    </div>
+</form>
+<div class="server-error">@ViewBag.Error</div>

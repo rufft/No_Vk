@@ -1,0 +1,11 @@
+@using No_Vk.Domain.Models
+
+<li class="message">
+    <div class="message-sender">@MessageModel.FromUser.Login</div>
+    <div class="message-send-time">@MessageModel.MessageCreationTime</div>
+    <div class="message-text">@MessageModel.MessageText</div>
+</li>
+
+@code {
+    [Parameter] public Message MessageModel { get; set; }
+}

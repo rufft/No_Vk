@@ -12,11 +12,11 @@ namespace No_Vk.Domain.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
-        private readonly IUserRepository _userRepository;
-        public LoginController (ILogger<LoginController> logger, IUserRepository userRepository)
+        private readonly UserDbContext _dbContext;
+        public LoginController (ILogger<LoginController> logger, UserDbContext dbContext)
         {
             _logger = logger;
-            _userRepository = userRepository;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
@@ -24,6 +24,13 @@ namespace No_Vk.Domain.Controllers
 
         [HttpGet]
         public IActionResult Login() => View();
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("User");
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost]
         public IActionResult Registration([FromForm] UserRegistrationBindingTarget target)
@@ -33,22 +40,24 @@ namespace No_Vk.Domain.Controllers
             target.Email = target.Email.Trim();
             target.Login = target.Login.Trim();
             target.Password = target.Password.Trim();
-
-            if (_userRepository.GetUsers().FirstOrDefault(u => u.Email == target.Email) != null)
+            
+            if (_dbContext.Users.FirstOrDefault(u => u.Email == target.Email) != null)
             {
-                ViewBag.Validation = "Пользователь с такой почтой уже существует";
+                ModelState["Email"].Errors
+                    .Add("A User with this email already exists");
                 return View(target);
             }
 
             try
             {
-                _userRepository.AddUser(target);
-                _userRepository.Save();
+                _dbContext.Users.Add(target.ToUser());
+                _dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                var message = e.Message;
                 _logger.LogError("Create new user ERROR: {Message}", message);
+                ViewBag.Error = "Server Error";
                 return View(target);
             }
 
@@ -62,29 +71,37 @@ namespace No_Vk.Domain.Controllers
             target.Email = target.Email.Trim();
             target.Password = target.Password.Trim();
             
-            var users = _userRepository.GetUsers();
-            User user = users.FirstOrDefault(u => u.Email == target.Email);
+            var users = _dbContext.Users;
+
+            if (!users.Any())
+            {
+                ModelState.AddModelError(string.Empty,"You entered the incorrect username or password");
+                return View();
+            }
+            
+            var user = users.FirstOrDefault(u => u.Email == target.Email);
 
             if (user == null)
             {
-                ViewBag.Validation = "Вы неправильно ввели логин или пароль";
+                ModelState.AddModelError(string.Empty,"You entered the incorrect username or password");
                 return View();
             }
 
             if (user.Password != target.Password)
             {
-                ViewBag.Validation = "Вы неправильно ввели логин или пароль";
+                ModelState.AddModelError(string.Empty,"You entered the incorrect username or password");
                 return View();
             }
 
             try
             {
-                HttpContext.Session.SetString("Addressee", user.Id);
+                HttpContext.Session.SetString("User", user.Id);
             }
             catch (Exception e)
             {
-                string message = e.Message;
-                _logger.LogError("Set string Addressee to session ERROR: {Message}", message);
+                var message = e.Message;
+                _logger.LogError("Set string User to session ERROR: {Message}", message);
+                ViewBag.Error = "Server Error";
                 return View();
             }
             

@@ -1,107 +1,12 @@
 ﻿@page "/chat/{ChatId}"
 
-@using Microsoft.Extensions.Logging
-@using No_Vk.Domain.Models.SignalRHubs
-@using No_Vk.Domain.Services
 @using UserData = No_Vk.Domain.Models
-@using Microsoft.AspNetCore.SignalR.Client;
+@using No_Vk.Domain.Components.Chat
 
-@inject IUserRepository _userRepository 
-@inject IChatHandlerService _chatHandler 
-@inject IUserDataService _userData 
-@inject NavigationManager _navigationManager
-@inject ILogger<Chat> _logger
+<ChatParent ChatParentId="@ChatId"></ChatParent>
 
-
-<div class="info">
-    <h3>Chat @ChatId</h3>
-    <h3>@_chat.Name</h3>
-    <h3>@_chat.Users.Count() человека</h3>
-</div>
-
-<div class="messages">
-    @foreach (var message in _chatMessages)
-    {
-        <div class="message">
-            (@message.MessageCreationTime.Date) (@message.MessageCreationTime.TimeOfDay)
-            @message.FromUser.Login :
-            @message.MessageText
-        </div>
-    }
-</div>
-<input type="text" @bind="_messageText"/>
-<button @onclick="() => Send(GetMessageFromString())">Отправить</button>
-<style>
-    .info {
-        border: solid 2px black;
-        margin: 5px;
-        padding: 5px
-    }
-    .messages {
-        border: solid 2px black;
-        margin: 5px;
-        padding: 5px
-    }
-    .message {
-        border: solid 2px black;
-        margin: 5px;
-        padding: 5px
-    }
-</style>
 
 @code {
     [Parameter]
     public string ChatId { get; set; }
-
-    private UserData.Chat _chat;
-
-    private List<Message> _chatMessages;
-
-    private User _me;
-
-    private string _messageText;
-
-    private string _hubUrl;
-    private HubConnection _hubConnection;
-
-    private void GetChatHub()
-    {
-        var baseUrl = _navigationManager.BaseUri;
-
-        _hubUrl = baseUrl.TrimEnd('/') + ChatHub.Url;
-
-        _hubConnection = new HubConnectionBuilder()
-            .WithUrl(_hubUrl)
-            .Build();
-
-        _hubConnection.On("Broadcast", BroadcastMessage);
-
-        _hubConnection.StartAsync();
-
-    }
-
-    private void BroadcastMessage()
-    {
-        _chat = _userRepository.GetChat(ChatId);
-        _chatMessages = _chat?.Messages?.OrderBy(m => m.MessageCreationTime).ToList();
-
-        StateHasChanged();
-    }
-
-    private void Send(Message message)
-    {
-        _chatHandler.SendMessageToDatabase(_chat, message);
-        _hubConnection.SendAsync("Broadcast");
-    }
-
-    private Message GetMessageFromString() => new(_me, _chat, _messageText);
-
-    protected override void OnInitialized()
-    {
-        _chat = _userRepository.GetChat(ChatId);
-        _chatMessages = _chat?.Messages?.OrderByDescending(m => m.MessageCreationTime).ToList();
-        GetChatHub();
-        _me = _userData.GetMe();
-    }
-
 }

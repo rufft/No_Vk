@@ -1,0 +1,11 @@
+@using No_Vk.Domain.Models
+
+<li class="member">
+    <span class="member-name">
+        <a class="user-link">@MemberModel.Login</a>
+    </span>
+</li>
+
+@code {
+    [Parameter] public User MemberModel { get; set; }
+}

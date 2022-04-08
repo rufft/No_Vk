@@ -1,0 +1,230 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+    list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+:root {
+    --white: white;
+    --black: black;
+
+    --background-dark: #e9e9e9;
+    --background: var(--white);
+    --text: var(--black);
+    --links-color: #7a76ff;
+
+    --brand: #4c67ff;
+    --brand-h: #b829ff;
+    --brand-f: #c471ed;
+
+    --space-s: calc(var(--space) / 2);
+    --space: 0.5em;
+    --space-l: calc(var(--space) * 2);
+    --space-exl: calc(var(--space) * 3);
+
+    --br: 0.4rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: rgb(26, 26, 26);
+        --black: rgb(243, 243, 243);
+
+        --background-dark: #0c0c0c;
+        --background: var(--white);
+        --text: var(--black);
+    }
+}
+
+body {
+    display: flex;
+
+    font-family: 'Open Sans', sans-serif;
+
+    font-weight: 400;
+    background-color: var(--background-dark);
+
+    min-height: 100vh;
+    color: var(--text);
+}
+
+.wrapper {
+    display: grid;
+    grid-template-areas:
+    'header'
+    'main'
+    'footer';
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+}
+
+a {
+    color: var(--links-color);
+    transition: color 250ms;
+}
+
+a:hover,
+a:focus {
+    outline: none;
+    color: var(--brand-h);
+}
+
+a:focus {
+    text-decoration: underline;
+}
+
+.header,
+.footer {
+    --font-size: 1.2rem;
+    font-size: var(--font-size);
+
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: var(--space);
+    line-height: 1;
+
+}
+
+.header a,
+.footer a {
+    text-decoration: none;
+}
+
+.header a:focus,
+.footer a:focus {
+    text-decoration: underline;
+}
+
+.logo {
+    flex-grow: 1;
+    font-size: calc(var(--font-size) * 1.5);
+    font-weight: 800;
+}
+
+.logo a {
+    --first: 0%;
+    --second: 50%;
+    --third: 100%;
+
+    color: transparent;
+
+    background-image: radial-gradient(
+            farthest-corner at 50% 50%,
+            var(--brand) 0%,
+            var(--brand-f) 50%,
+            var(--brand-h) 100%
+    );
+
+    -webkit-background-clip: text;
+
+    animation: gradient 10000ms ease-in-out infinite;
+    background-size: 300% 200%;
+    background-position: 0% 0%;
+}
+
+.logo a:hover {
+    --first: 20%;
+    --second: 90%;
+    --third: 80%;
+}
+
+@keyframes gradient {
+    50% {
+        background-position: 100% 100%;
+    }
+}
+
+.nav {
+    font-weight: 500;
+    flex-shrink: 1;
+
+    display: flex;
+    gap: var(--space-l);
+}
+
+.main {
+    grid-area: main;
+    background-color: var(--white);
+    border-radius: var(--br);
+    padding: var(--space-l);
+}
+
+.footer {
+    grid-area: footer;
+    font-size: 1em;
+}

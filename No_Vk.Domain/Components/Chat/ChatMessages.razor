@@ -1,0 +1,15 @@
+@using System.ComponentModel.DataAnnotations
+@using No_Vk.Domain.Models
+@using No_Vk.Domain.Models.Abstractions
+
+<div class="chat">
+    <ul class="messages">
+        @foreach (var messageModel in ChatModel.Messages)
+        {
+            <ChatMessage MessageModel="@messageModel"></ChatMessage>
+        }
+    </ul>
+</div>
+@code {
+    [Parameter] public Chat ChatModel { get; set; }
+}

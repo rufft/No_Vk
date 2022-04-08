@@ -1,0 +1,15 @@
+@using No_Vk.Domain.Models
+
+<div class="members-container">
+    <ul class="members">
+        @foreach (var member in ChatModel.Users)
+        {
+            <ChatMember MemberModel="@member"></ChatMember>
+        }
+    </ul>
+    <div class="members-count">@ChatModel.Users.Count()</div>
+</div>
+
+@code {
+    [Parameter] public Chat ChatModel { get; set; }
+}

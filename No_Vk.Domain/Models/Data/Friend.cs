@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using No_Vk.Domain.Models.Abstractions;
@@ -7,21 +6,21 @@ namespace No_Vk.Domain.Models.Data
 {
     public sealed class Friend : IIdentifier
     {
-        //TODO: Remove this constructor
-        public Friend() { }
-        public Friend(User user, User friendUser)
+        private Friend() { }
+
+        public Friend(string myId, User friendUser)
         {
-            Me = user;
-            MyId = user.Id;
+            MyId = myId;
+            FriendId = friendUser.Id;
             FriendUser = friendUser;
         }
         
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
-        public string Id { get; set; }
+        public string Id { get; init; }
         
-        public string MyId { get; set; }
-        public User Me { get; set; }
+        public string MyId { get; init; }
         
-        public User FriendUser { get; set; }
+        public string FriendId { get; init; }
+        public User FriendUser { get; init; }
     }
 }

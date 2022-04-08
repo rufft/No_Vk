@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "No_Vk.Domain", "No_Vk.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "No_Vk.Tests", "No_Vk.Test\No_Vk.Tests.csproj", "{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "No_Vk.Benchmarks", "No_Vk.Benchmarks\No_Vk.Benchmarks.csproj", "{FC0C4EE8-6423-4BC3-9D27-27131B81FED1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4EE6723-FF33-493A-BF23-F216FFD6CD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC0C4EE8-6423-4BC3-9D27-27131B81FED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC0C4EE8-6423-4BC3-9D27-27131B81FED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC0C4EE8-6423-4BC3-9D27-27131B81FED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC0C4EE8-6423-4BC3-9D27-27131B81FED1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

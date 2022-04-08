@@ -2,7 +2,7 @@
 
 @using No_Vk.Domain.Services
 
-@inject IUserRepository _userRepository
+@inject UserDbContext _dbContext
 @inject IUserDataService _userData
 @inject INoticeHandlerService _noticeHandler
 
@@ -35,24 +35,24 @@
 
     private User _me;
     
-    private IQueryable<Notice> GetList() => _userRepository
-        .GetNotices()
+    private IQueryable<Notice> GetList() => _dbContext
+        .Notices
         .Where(n => n.Addressee.Id == _me.Id);
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        _me = _userData.GetMe();
+        _me = await _userData.GetMeAsync();
         _myNotices = GetList();
     }
 
     private void AcceptFriendInvite(Notice notice)
     {
-        _noticeHandler.FriendInviteInvoke(notice, true);
+        _noticeHandler.FriendInviteInvokeAsync(notice, true);
         OnInitialized();
     }
     private void DeclineFriendInvite(Notice notice)
     {
-        _noticeHandler.FriendInviteInvoke(notice, false);
+        _noticeHandler.FriendInviteInvokeAsync(notice, false);
         OnInitialized();
     }
 }

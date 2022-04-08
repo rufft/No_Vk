@@ -1,16 +1,53 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using No_Vk.Domain.Services
+
+@inject IUserDataService _userData
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>@ViewData["title"]</title>
-        <base href="~/" />
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Главная страница" />
+    <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/login.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"/>
+    <title>@ViewData["title"]</title>
+    <base href="~/" />
+</head>
 
-    <body>
+<body>
 
+<div class="wrapper">
+    <header class="header">
+        <div class="logo"><a href="">No_Vk</a></div>
+        <nav class="nav">
+            @{
+                if (_userData.GetMe() is null)
+                {
+                    <span class="nav-item nav-item-login"><a href="/login/login">Login</a></span>
+                    <span class="nav-item nav-item-registration"><a href="/login/registration">Registration</a></span>
+                }
+                else
+                {
+                    <span class="nav-item nav-item-login"><a href="login/logout">Logout</a></span>
+                }
+            }
+        </nav>
+    </header>
+    <main class="main">
         @RenderBody()
-        @*<script src="_framework/blazor.server.js"></script>*@
-    </body>
+    </main>
+    <footer class="footer">
+        <nav class="nav">
+            <span class="nav-item nav-item-about"><a href="">About us</a></span>
+            <span class="nav-item nav-item-contacts"><a href="">Contacts</a></span>
+            <span class="nav-item nav-item-partners"><a href="">Partners</a></span>
+        </nav>
+    </footer>
+</div>
+</body>
 </html>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

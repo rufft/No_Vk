@@ -1,0 +1,158 @@
+:root {
+    --chat-background-components: #161616;
+    --message-background: #525a9d;
+    --scrolles-bg-color: rgb(215, 215, 215);
+
+}
+
+/*Borders*/
+.chat-container, .chat-info, .members-container, .member, .messages, .send-message-form, .message, .chat {
+    border-radius: var(--br);
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-exl);
+    box-sizing: border-box;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.chat-container {
+    display: grid;
+    grid-template-areas:
+    'chat-info chat-info'
+    'members chat'
+    'members form';
+    grid-template-rows: min-content minmax(0, 1fr) min-content;
+    grid-template-columns: min-content minmax(min-content, 1fr);
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 40%;
+    min-width: 50rem;
+    max-height: calc(100vh - 2 * var(--navbar-height) - 2 * var(--space-l));
+    max-width: 60%;
+    gap: var(--space);
+    padding: var(--space);
+}
+
+.chat-info {
+    grid-area: chat-info;
+    background-color: var(--chat-background-components);
+    padding: var(--space);
+    display: flex;
+    gap: var(--space-l);
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
+
+.members-container {
+    grid-area: members;
+    background-color: var(--chat-background-components);
+    display: flex;
+    flex-direction: column;
+}
+
+.messages::-webkit-scrollbar {
+    display: none;
+}
+
+.member {
+    display: flex;
+    flex-direction: row;
+    padding: var(--space-l);
+    gap: var(--space);
+
+}
+.member-action-containers {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space);
+
+}
+
+
+.member-action {
+    width: var(--space);
+    height: var(--space);
+}
+.members-count {
+    padding: var(--space-l);
+    align-self: center;
+
+}
+
+.chat {
+    height: 100%; /*TODO: удалить когда Платон уйдет*/
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: var(--chat-background-components);
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    grid-area: chat;
+    gap: var(--space);
+    min-width: 10rem;
+    height: min-content;
+    padding: var(--space);
+    overflow-y:auto;
+}
+.message {
+    display: grid;
+    grid-template-areas:
+    'name .'
+    'message time';
+    background-color: var(--message-background);
+    padding: var(--space);
+    height: min-content;
+    font-size: small;
+}
+.message-sender {
+    grid-area: name;
+}
+
+.message-text {
+    grid-area: message;
+}
+
+.message-send-time {
+    grid-area: time;
+    text-align: right;
+    font-size: small;
+}
+
+.send-message-form {
+    grid-area: form;
+    background-color: var(--chat-background-components);
+    padding: var(--space);
+    display: flex;
+    gap: var(--space);
+}
+
+.send-message-input {
+    border-radius: var(--br);
+    border: none;
+    display: flex;
+    flex-grow: 1;
+}
+.send-message-button {
+    border-radius: var(--br);
+    border: none;
+    transition: 0.2s;
+}
+.send-message-button:focus, .send-message-button:hover {
+    background-color: var(--message-background);
+}

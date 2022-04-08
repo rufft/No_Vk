@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Abstractions;
 using No_Vk.Domain.Models.Data;
 
@@ -7,17 +9,16 @@ namespace No_Vk.Domain.Services
 {
     public class NoticeHandlerService : INoticeHandlerService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly UserDbContext _dbContext;
         private readonly ILogger<NoticeHandlerService> _logger;
         public NoticeHandlerService(
-            IUserRepository userRepository,
-            ILogger<NoticeHandlerService> logger)
+            ILogger<NoticeHandlerService> logger, UserDbContext dbContext)
         {
-            _userRepository = userRepository;
             _logger = logger;
+            _dbContext = dbContext;
         }
 
-        public void FriendInviteInvoke(Notice notice, bool isAccepted)
+        public async Task FriendInviteInvokeAsync(Notice notice, bool isAccepted)
         {
             if (notice == null) { return; }
             
@@ -25,8 +26,8 @@ namespace No_Vk.Domain.Services
             {
                 try
                 {
-                    _userRepository.DeleteNotice(notice);
-                    _userRepository.Save();
+                    _dbContext.Notices.Remove(notice);
+                    await _dbContext.SaveChangesAsync();
                 }
                 catch (Exception e)
                 {
@@ -37,24 +38,27 @@ namespace No_Vk.Domain.Services
                 return;
             }
 
-            var address = _userRepository.GetUser(notice.Object);
-
-            if (address == null)
+            var addressId = notice.Object;
+            
+            if (string.IsNullOrEmpty(addressId))
             {
-                _logger.LogError("Me is Null");
+                _logger.LogError("My id is Null or empty");
                 return;
             }
 
             try
             {
-                Friend addresseeFriend = new(notice.Addressee, address);
-                Friend addressFriend = new(address, notice.Addressee);
+                var address = await _dbContext.FindAsync<User>(addressId);
 
+                Friend addresseeFriend = new(notice.Addressee.Id, address);
+                Friend addressFriend = new(addressId, notice.Addressee);
+
+                
                 address.Friends.Add(addressFriend);
                 notice.Addressee.Friends.Add(addresseeFriend);
 
-                _userRepository.DeleteNotice(notice);
-                _userRepository.Save();
+                _dbContext.Notices.Remove(notice);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -63,8 +67,9 @@ namespace No_Vk.Domain.Services
             }
 
         }
-        public void ChatInviteInvoke(Notice notice, bool isAccepted)
+        public Task ChatInviteInvokeAsync(Notice notice, bool isAccepted)
         {
+            throw new NotImplementedException();
         }
     }
 }

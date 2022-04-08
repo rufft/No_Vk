@@ -9,7 +9,7 @@ namespace No_Vk.Domain.Models.Attributes
         {
             if (value?.ToString() == null)
             {
-                ErrorMessage = "¬ведите почту";
+                ErrorMessage = "Enter email";
                 return false;
             }
 
@@ -17,7 +17,11 @@ namespace No_Vk.Domain.Models.Attributes
             
             var trimmedEmail = email.Trim();
             
-            return Regex.IsMatch(trimmedEmail, @"[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+            var isMatch = Regex.IsMatch(trimmedEmail, @"[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+            
+            if (isMatch) return true;
+            ErrorMessage = "Invalid Email";
+            return false;
         }
     }
 }

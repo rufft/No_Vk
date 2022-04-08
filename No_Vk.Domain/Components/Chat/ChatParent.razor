@@ -1,0 +1,81 @@
+@using Microsoft.Extensions.Logging
+@using No_Vk.Domain.Models.SignalRHubs
+@using No_Vk.Domain.Services
+@using UserData = No_Vk.Domain.Models
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Microsoft.EntityFrameworkCore
+@using No_Vk.Domain.Models.Abstractions
+@using No_Vk.Domain.Models.Data
+
+@inject UserDbContext _dbContext
+@inject IChatHandlerService _chatHandler 
+@inject IUserDataService _userData
+@inject NavigationManager _navigationManager
+@inject ILogger<UserData.Chat> _logger
+
+<div class="chat-container">
+    <ChatInfo ChatModel="@_chat"></ChatInfo>
+    <ChatMembers ChatModel="@_chat"></ChatMembers>
+    <ChatMessages ChatModel="@_chat"></ChatMessages>
+    <div class="send-message-form">
+        <input @bind="_messageText" class="send-message-input">
+        <button @onclick="async () => await SendAsync(GetMessageFromString())" class="send-message-button">Send message</button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string ChatParentId { get; set; }
+
+    private UserData.Chat _chat;
+
+    private UserData.User _me;
+
+    private string _messageText;
+
+    private string _hubUrl;
+    private HubConnection _hubConnection;
+
+    private void GetChatHub()
+    {
+        var baseUrl = _navigationManager.BaseUri;
+
+        _hubUrl = baseUrl.TrimEnd('/') + ChatHub.Url;
+
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(_hubUrl)
+            .Build();
+
+        _hubConnection.On("Broadcast", BroadcastMessage);
+
+        _hubConnection.StartAsync();
+
+    }
+
+    private async Task BroadcastMessage()
+    {
+        _chat = await _dbContext.FindAsync<UserData.Chat>(ChatParentId);
+
+        StateHasChanged();
+    }
+
+    private async Task SendAsync(UserData.Message message)
+    {
+        await _chatHandler.CreateMessageAsync(_chat, message);
+        await _hubConnection.SendAsync("Broadcast");
+    }
+
+    private UserData.Message GetMessageFromString() => new(_me, _chat, _messageText);
+
+    protected override async void OnInitialized()
+    {
+        _chat = await _dbContext.Chats
+            .Include(c => c.Messages)
+            .Include(c => c.Users)
+            .FirstOrDefaultAsync(c => c.Id == ChatParentId);
+        GetChatHub();
+        _me = await _userData.GetMeAsync();
+    }
+
+}

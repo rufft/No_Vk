@@ -1,25 +1,22 @@
-﻿using No_Vk.Domain.Models;
-using No_Vk.Domain.Models.Abstractions;
+﻿using System.Threading.Tasks;
+using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Data;
-using System.Linq;
 
 namespace No_Vk.Domain.Services
 {
     public class ChatHandlerService : IChatHandlerService
     {
-        private readonly IUserRepository _userRepository;
-        private IUserDataService _userData;
-        public ChatHandlerService(IUserRepository userRepository, IUserDataService userData)
+        private readonly UserDbContext _dbContext;
+        public ChatHandlerService(UserDbContext dbContext)
         {
-            _userRepository = userRepository;
-            _userData = userData;
+            _dbContext = dbContext;
         }
 
-        public void CreateChat(ChatBindingTarget chatBindingTarget, params User[] users)
+        public async Task CreateChatAsync(ChatBindingTarget chatBindingTarget, params User[] users)
         {
-            Chat chat = chatBindingTarget.ToChat();
+            var chat = chatBindingTarget.ToChat();
 
-            _userRepository.AddChat(chat);
+            await _dbContext.Chats.AddAsync(chat);
 
             foreach (var user in users)
             {
@@ -28,32 +25,32 @@ namespace No_Vk.Domain.Services
                 user.Chats ??= user.Chats = new();
                 user.Chats?.Add(chat);
             }
-            _userRepository.Save();
+            await _dbContext.SaveChangesAsync();
         }
-        public void CreateChat(ChatBindingTarget chatBindingTarget, params string[] usersId)
+        public async Task CreateChatAsync(ChatBindingTarget chatBindingTarget, params string[] usersId)
         {
-            Chat chat = chatBindingTarget.ToChat();
+            var chat = chatBindingTarget.ToChat();
 
-            _userRepository.AddChat(chat);
+            await _dbContext.Chats.AddAsync(chat);
 
             foreach (var userId in usersId)
             {
-                User user = _userRepository.GetUser(userId);
+                var user = await _dbContext.FindAsync<User>(userId);
                 chat.Users?.Add(user);
                 
                 user.Chats ??= user.Chats = new();
                 user.Chats?.Add(chat);
             }
-            _userRepository.Save();
+            await _dbContext.SaveChangesAsync();
         }
-        public void SendMessageToDatabase(Chat chat, Message message)
+        public async Task CreateMessageAsync(Chat chat, Message message)
         {
             if (message == null || chat == null) return;
 
             chat.Messages.Add(message);
 
-            _userRepository.UpdateChat(chat);
-            _userRepository.Save();
+            _dbContext.Chats.Update(chat);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -27,20 +27,18 @@ namespace No_Vk.Domain
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
-            services.AddDbContext<UserDbContext>(opts =>
-            {
-                opts.UseSqlServer(Configuration.GetConnectionString("no_vkConnection"));
+            services.AddDbContext<UserDbContext>(opts => {
+                opts.UseNpgsql(Configuration.GetConnectionString("no_vkConnection"));
             });
-            services.AddSession(opts =>
-            {
-                opts.IdleTimeout = TimeSpan.FromSeconds(600);
+            services.AddSession(opts => {
+                opts.IdleTimeout = TimeSpan.FromSeconds(1200);
             });
             services.AddLogging();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<IUserRepository, UsersRepository>();
             services.AddScoped<INoticeHandlerService, NoticeHandlerService>();
             services.AddScoped<IChatHandlerService, ChatHandlerService>();
             services.AddScoped<IUserDataService, UserDataService>();
@@ -50,8 +48,7 @@ namespace No_Vk.Domain
         public void Configure(
             IApplicationBuilder app,
             IWebHostEnvironment env,
-            ILogger<Startup> logger,
-            IUserRepository userRepository)
+            ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -69,8 +66,8 @@ namespace No_Vk.Domain
             app.UseRouting();
             app.UseAuthorization();
 
-            app.UseAdminDefaultLogin();
-            app.UseNotAuthorizedUsersHeandler();
+            //app.UseAdminDefaultLogin();
+            app.UseLogoutUsersHandler();
 
             app.UseEndpoints(endpoints =>
             {
@@ -79,11 +76,11 @@ namespace No_Vk.Domain
                 endpoints.MapBlazorHub();
                 endpoints.MapHub<ChatHub>(ChatHub.Url);
                 endpoints.MapFallbackToPage("/chats/{*catchall}", "/Chats/IndexChats");
-                //endpoints.MapFallbackToPage("/chat/{ChatId}", "/Chats/IndexChats");
+                endpoints.MapFallbackToPage("/chat/{ChatId}", "/Chats/IndexChats");
                 endpoints.MapFallbackToPage("/notice/{*catchall}", "/Notice/IndexNotice");
             });
 
-            app.Run(async context => await context.Response.WriteAsync("Такой страницы нет!"));
+            app.Run(async context => await context.Response.WriteAsync("There is no such page!"));
         }
     }
 }

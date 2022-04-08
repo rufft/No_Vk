@@ -2,6 +2,7 @@
 using No_Vk.Domain.Models.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;
+using No_Vk.Domain.Models.Data;
 
 namespace No_Vk.Domain.Middleware
 {
@@ -13,11 +14,11 @@ namespace No_Vk.Domain.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, IUserRepository userRepository)
+        public async Task InvokeAsync(HttpContext context, UserDbContext dbContext)
         {
             if (!context.Session.Keys.Contains("User"))
             {
-                string userId = userRepository.GetUsers().FirstOrDefault(u => u.Email == "admin@dev.ru").Id;
+                var userId = dbContext.Users.FirstOrDefault(u => u.Email == "admin@dev.ru").Id;
 
                 context.Session.SetString("User", userId);
             }
