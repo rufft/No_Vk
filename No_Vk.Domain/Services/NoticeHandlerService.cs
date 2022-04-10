@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using No_Vk.Domain.Models;
@@ -48,17 +49,16 @@ namespace No_Vk.Domain.Services
 
             try
             {
-                var address = await _dbContext.FindAsync<User>(addressId);
+                var address = _dbContext.Find<User>(addressId);
 
-                Friend addresseeFriend = new(notice.Addressee.Id, address);
-                Friend addressFriend = new(addressId, notice.Addressee);
-
+                address.Friends ??= new();
+                notice.Addressee.Friends ??= new();
                 
-                address.Friends.Add(addressFriend);
-                notice.Addressee.Friends.Add(addresseeFriend);
+                address.Friends.Add(new(notice.Addressee));
+                notice.Addressee.Friends.Add(new(address));
 
                 _dbContext.Notices.Remove(notice);
-                await _dbContext.SaveChangesAsync();
+                _dbContext.SaveChanges();
             }
             catch (Exception e)
             {

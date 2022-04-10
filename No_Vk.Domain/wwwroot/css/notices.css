@@ -1,0 +1,25 @@
+.notices-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-exl);
+}
+.notice {
+    --notice-bg-color: #151515;
+    background-color: var(--notice-bg-color);
+    border-radius: var(--br);
+    padding: var(--space);
+    text-align: center;
+}
+.button {
+    text-decoration: none;
+    border: none;
+    border-radius: var(--br);
+    transition: 0.2s;
+}
+.button:hover {
+    background-color: #5e66ff;
+}
+
+.button:focus {
+    background-color: #2e38d9;
+}

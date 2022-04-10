@@ -6,8 +6,7 @@ namespace No_Vk.Domain.Services
 {
     public interface IChatHandlerService
     {
-        public Task CreateChatAsync(ChatBindingTarget chatBindingTarget, params User[] users);
-        public Task CreateChatAsync(ChatBindingTarget chatBindingTarget, params string[] usersId);
-        public Task CreateMessageAsync(Chat chat, Message message);
+        public void CreateChat(ChatBindingTarget chatBindingTarget, params string[] userIds);
+        public void CreateMessage(Chat chat, Message message);
     }
 }

@@ -57,17 +57,17 @@ namespace No_Vk.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text");
 
-                    b.Property<string>("FriendUserId")
+                    b.Property<string>("FriendId")
                         .HasColumnType("text");
 
-                    b.Property<string>("MyId")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FriendUserId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Friend");
+                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>
@@ -168,11 +168,9 @@ namespace No_Vk.Domain.Migrations
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Friend", b =>
                 {
-                    b.HasOne("No_Vk.Domain.Models.User", "FriendUser")
+                    b.HasOne("No_Vk.Domain.Models.User", null)
                         .WithMany("Friends")
-                        .HasForeignKey("FriendUserId");
-
-                    b.Navigation("FriendUser");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("No_Vk.Domain.Models.Data.Notice", b =>

@@ -48,7 +48,7 @@ namespace No_Vk.Domain.Controllers
                 .Select(d => d.Key).ToList();
             
             userIds.Add(_userData.GetMe().Id);
-            _chatHandler.CreateChatAsync(model.ChatTarget, userIds.ToArray());
+            _chatHandler.CreateChat(model.ChatTarget, userIds.ToArray());
             return RedirectToAction("Index", "Home");
         }
     }

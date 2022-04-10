@@ -21,8 +21,8 @@ namespace No_Vk.Domain.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult Index([FromForm] string userId)
+        [HttpGet]
+        public IActionResult Index(string userId)
         {
             return View("UserView", userId);
         }

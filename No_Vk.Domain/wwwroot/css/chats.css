@@ -1,0 +1,15 @@
+.chat-links-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-l);
+}
+
+.chat-link-container {
+    text-decoration: none;
+    --bg-color: rgb(24, 24, 24);
+    text-align: center;
+    background-color: var(--bg-color);
+    padding: var(--space-l);
+    border-radius: var(--br);
+}

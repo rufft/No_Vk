@@ -3,6 +3,7 @@ using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace No_Vk.Domain.Services
 {
@@ -20,14 +21,22 @@ namespace No_Vk.Domain.Services
         public User GetMe()
         {
             if (!_httpContextAccessor.HttpContext.Session.Keys.Contains("User")) return null;
-            var user = _dbContext.Find<User>(_httpContextAccessor.HttpContext.Session.GetString("User"));
+            var userId = _httpContextAccessor.HttpContext.Session.GetString("User");
+            var user = _dbContext.Users
+                .Include(u => u.Friends)
+                .Include(u => u.Chats)
+                .ThenInclude(c => c.Users).FirstOrDefault(u => u.Id == userId);
             return user;
         }
 
         public async Task<User> GetMeAsync()
         {
             if (!_httpContextAccessor.HttpContext.Session.Keys.Contains("User")) return null;
-            var user = await _dbContext.FindAsync<User>(_httpContextAccessor.HttpContext.Session.GetString("User"));
+            var userId = _httpContextAccessor.HttpContext.Session.GetString("User");
+            var user = await _dbContext.Users
+                .Include(u => u.Friends)
+                .Include(u => u.Chats)
+                .ThenInclude(c => c.Users).FirstOrDefaultAsync(u => u.Id == userId);
             return user;
         }
 

@@ -1,15 +1,33 @@
 @using System.ComponentModel.DataAnnotations
+@using Microsoft.JSInterop
 @using No_Vk.Domain.Models
 @using No_Vk.Domain.Models.Abstractions
 
 <div class="chat">
-    <ul class="messages">
-        @foreach (var messageModel in ChatModel.Messages)
+    <ul class="messages" @ref="_listElement">
+        @foreach (var messageModel in SortMessagesByDateAsync(ChatModel.Messages))
         {
             <ChatMessage MessageModel="@messageModel"></ChatMessage>
         }
     </ul>
 </div>
+
+
 @code {
     [Parameter] public Chat ChatModel { get; set; }
+
+    [Inject] 
+    IJSRuntime JsRuntime { get; set; } 
+    
+    private ElementReference _listElement;
+
+    private List<Message> SortMessagesByDateAsync(ICollection<Message> messages)
+    {
+        return messages.OrderBy(m => m.MessageCreationTime).ToList();
+    }
+    
+    public void ScrollToEnd() {
+
+        JsRuntime.InvokeVoidAsync("scrollToEnd", new object[] {_listElement});
+    }   
 }

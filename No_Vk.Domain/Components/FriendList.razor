@@ -4,6 +4,7 @@
 @using No_Vk.Domain.Services
 
 @inject UserDataService _userData
+@inject UserDbContext _dbContext
 
 <div>
     @foreach(var friend in _friends)
@@ -17,6 +18,7 @@
 
     protected override void OnInitialized()
     {
-        _friends = _userData.GetMe().Friends.Select(f => f.FriendUser);
+        var friendsIds = _userData.GetMe().Friends.Select(f => f.FriendId);
+        _friends = _dbContext.Users.Where(u => friendsIds.Contains(u.Id));
     }
 }

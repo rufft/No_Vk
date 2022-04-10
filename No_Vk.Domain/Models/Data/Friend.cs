@@ -8,19 +8,18 @@ namespace No_Vk.Domain.Models.Data
     {
         private Friend() { }
 
-        public Friend(string myId, User friendUser)
+        public Friend(User friendUser)
         {
-            MyId = myId;
             FriendId = friendUser.Id;
-            FriendUser = friendUser;
+        }
+        public Friend(string friendId)
+        {
+            FriendId = friendId;
         }
         
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public string Id { get; init; }
         
-        public string MyId { get; init; }
-        
         public string FriendId { get; init; }
-        public User FriendUser { get; init; }
     }
 }

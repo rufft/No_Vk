@@ -61,9 +61,13 @@ ul {
     background-color: var(--chat-background-components);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .messages::-webkit-scrollbar {
+    display: none;
+}
+.members-container::-webkit-scrollbar {
     display: none;
 }
 
@@ -119,6 +123,9 @@ ul {
     padding: var(--space);
     height: min-content;
     font-size: small;
+}
+.message {
+    border-right: 12px solid rgb(255, 74, 74);
 }
 .message-sender {
     grid-area: name;

@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using No_Vk.Domain.Models;
 using No_Vk.Domain.Models.Data;
 
@@ -27,30 +31,53 @@ namespace No_Vk.Domain.Services
             }
             await _dbContext.SaveChangesAsync();
         }
-        public async Task CreateChatAsync(ChatBindingTarget chatBindingTarget, params string[] usersId)
+        public void CreateChat(ChatBindingTarget chatBindingTarget, params string[] userIds)
         {
             var chat = chatBindingTarget.ToChat();
+            
+            var users = new List<User>();
 
-            await _dbContext.Chats.AddAsync(chat);
-
-            foreach (var userId in usersId)
+            chat.Users = new();
+            
+            foreach (var userId in userIds)
             {
-                var user = await _dbContext.FindAsync<User>(userId);
-                chat.Users?.Add(user);
+                var user = _dbContext.Users
+                    .Include(u => u.Chats)
+                    .ThenInclude(c => c.Users)
+                    .FirstOrDefault(u => u.Id == userId);
+
+                if (user is null) continue;
                 
-                user.Chats ??= user.Chats = new();
-                user.Chats?.Add(chat);
+                users.Add(user);
+                chat.Users.Add(user);
             }
-            await _dbContext.SaveChangesAsync();
+            
+            foreach (var user in users)
+            {
+                user.Chats ??= new();
+                user.Chats.Add(chat);
+            }
+
+            try
+            {
+                _dbContext.Chats.Add(chat);
+
+                _dbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
-        public async Task CreateMessageAsync(Chat chat, Message message)
+        public void CreateMessage(Chat chat, Message message)
         {
             if (message == null || chat == null) return;
 
             chat.Messages.Add(message);
 
             _dbContext.Chats.Update(chat);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
     }
 }

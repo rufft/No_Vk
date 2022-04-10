@@ -2,18 +2,18 @@
 @using No_Vk.Domain.Services
 
 @inject IUserDataService _userData
+@inject NavigationManager _navigationManager    
 
-<h3>Chats</h3>
-<br />
-
-@foreach (var chat in _userData.GetMe().Chats)
-{
-    var link = $"/chat/{chat.Id}";
-    <div>
-        <h2><NavLink href="@link">@chat.Name</NavLink></h2>
-        @foreach (var user in chat.Users)
-       {
-           <h5>@user.Login</h5>
-       }
-    </div>
-}
+<div class="chat-links-container">
+    @foreach (var chat in _userData.GetMe()?.Chats)
+    {
+        var link = $"/chat/{chat.Id}";
+        <NavLink href="@link" class="chat-link-container">
+            <div class="chat-link-info">
+                <div class="chat-link-name">@chat.Name</div>
+                <div class="chat-link-members-count">Members: @chat.Users.Count</div>
+            </div>
+        </NavLink>
+    }
+    
+</div>

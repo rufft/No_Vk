@@ -22,7 +22,7 @@ namespace No_Vk.Domain.Middleware
         {
             if (context.Session.Keys.Contains("User"))
             {
-                string userId = context.Session.GetString("User");
+                var userId = context.Session.GetString("User");
 
                 if (string.IsNullOrEmpty(userId) && !_allowedPaths.Contains(context.Request.Path.Value))
                 {

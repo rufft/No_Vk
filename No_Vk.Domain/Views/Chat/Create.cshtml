@@ -4,6 +4,7 @@
 
 @inject IUserDataService _userData
 @inject IChatHandlerService _chatData
+@inject UserDbContext _dbContext
 
 @{
     Layout = "_Layout";
@@ -22,8 +23,8 @@
             <div class="friend-checkboxes">
                 @foreach(var friend in (await _userData.GetMeAsync())?.Friends)
                 {
-                    @friend.FriendUser.Login
-                    @Html.CheckBoxFor(model => Model.UserIds[friend.FriendUser.Id])
+                    @((await _dbContext.Users.FindAsync(friend.FriendId)).Login)
+                    @Html.CheckBoxFor(model => Model.UserIds[friend.FriendId])
                     <br />
                 }
             </div>

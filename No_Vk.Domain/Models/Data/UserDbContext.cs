@@ -14,15 +14,17 @@ namespace No_Vk.Domain.Models.Data
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Notice> Notices { get; set; }
+        public DbSet<Friend> Friends { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Notice>()
                 .HasOne(n => n.Addressee);
-            
+
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Friends);
-
+            
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Chats)
                 .WithMany(c => c.Users)

@@ -6,29 +6,26 @@
 @inject IUserDataService _userData
 @inject INoticeHandlerService _noticeHandler
 
-<h3>Notices</h3>
-
+<div class="notices-container">
 @foreach (var notice in _myNotices)
 {
     <div class="notice">
-    <h3>@notice.Name</h3>
-    <h3>@notice.Description</h3>
-    @if (notice.Type == NoticeType.FriendInvite)
-    {
-        <div @onclick="OnInitialized">
-            <button class="btn btn-primary" @onclick="() => AcceptFriendInvite(notice)">Принять</button>
-            <button @onclick="() => DeclineFriendInvite(notice)">Отклонить</button>
+        <div class="notice-info">
+            <div class="notice-name">@notice.Name</div>
+            <div class="notice-description">@notice.Description</div>
         </div>
-    }
-</div>
- <style>
-     .notice {
-         padding: 10px;
-         margin: 10px;
-         border: 2px solid black;
-     }
- </style>
+        @if (notice.Type == NoticeType.FriendInvite)
+        {
+            <div class="notices-button">
+                <button class="button" @onclick="() => AcceptFriendInvite(notice)">Accept</button>
+                <button class="button" @onclick="() => DeclineFriendInvite(notice)">Decline</button>
+            </div>
+        }
+    </div>
+
 }
+</div>
+
 
 @code {
     private IQueryable<Notice> _myNotices;
@@ -39,9 +36,9 @@
         .Notices
         .Where(n => n.Addressee.Id == _me.Id);
 
-    protected override async void OnInitialized()
+    protected override void OnInitialized()
     {
-        _me = await _userData.GetMeAsync();
+        _me = _userData.GetMe();
         _myNotices = GetList();
     }
 

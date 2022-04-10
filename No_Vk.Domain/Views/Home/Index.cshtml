@@ -1,15 +1,27 @@
-﻿@using No_Vk.Domain.Models.Abstractions
+﻿@using No_Vk.Domain.Services
+
 @inject UserDbContext _dbContext
+@inject IUserDataService _userData
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-        <div class="d-site-info">
-            @{
-                var user = _dbContext.Users.First();
-            }
-            @user.Id
+<div class="welcome-nav-container">
+    @{
+        var me = await _userData.GetMeAsync();
+    }
+    @if (me is not null)
+    {
+        @:<div class="welcome">Welcome @me.Login</div>
+        <div class="welcome-nav-elements">
+            <a class="welcome-nav-element" href="/chats">Go to chats</a>    
+            <a class="welcome-nav-element" href="/notice">Notices</a>
+            <a class="welcome-nav-element" href="/friends">My Friends</a>
+            
+            
+            <a class="welcome-nav-element" href="/chat/create">Create chat</a>
         </div>
+
+    }
 </div>
